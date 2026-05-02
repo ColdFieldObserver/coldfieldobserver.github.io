@@ -265,6 +265,146 @@ padding: 0.8rem 1rem;
     border-radius: 8px;
 }
 
+/* 按钮样式 (与云母风格协调) */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: inherit;
+    color: #fff;
+    background: linear-gradient(135deg, #3a8ab0 0%, #1e5f7a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 40px;
+    box-shadow: 0 4px 12px rgba(30, 95, 122, 0.25), inset 0 1px 0 rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    line-height: 1.4;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #4a9ac0 0%, #2a6f8a 100%);
+    box-shadow: 0 6px 18px rgba(30, 95, 122, 0.35), inset 0 1px 0 rgba(255,255,255,0.3);
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(30, 95, 122, 0.25);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.35);
+    color: #1a3a48;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.5);
+    color: #0b2b38;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: #1f6d8a;
+    border: 1px solid rgba(31, 109, 138, 0.35);
+    box-shadow: none;
+}
+
+.btn-ghost:hover {
+    background: rgba(31, 109, 138, 0.08);
+    color: #043b4b;
+    border-color: rgba(31, 109, 138, 0.55);
+}
+
+.btn-sm {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 32px;
+}
+
+.btn-lg {
+    padding: 0.75rem 2rem;
+    font-size: 1.05rem;
+    border-radius: 48px;
+}
+
+/* 输入框样式 */
+.input,
+.textarea,
+.select {
+    display: block;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: #1a3a48;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+    outline: none;
+    line-height: 1.5;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: #6a9aaa;
+    opacity: 0.8;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(58, 138, 176, 0.6);
+    box-shadow: 0 0 0 3px rgba(58, 138, 176, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 100px;
+    margin-bottom: 0.75rem;
+}
+
+.select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231a3a48' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+/* 表单组 */
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1a3a48;
+}
+
+.form-hint {
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
+    color: #4a7a8a;
+}
+
 /* 内容中引号等细节 */
 .quote-note {
     background: rgba(245, 255, 250, 0.4);
@@ -281,4 +421,100 @@ padding: 0.8rem 1rem;
     font-size: 0.75rem;
     color: #1f586d;
     opacity: 0.8;
+}
+
+/* 按钮组 */
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.btn-block {
+    flex: 1;
+    min-width: 120px;
+}
+
+.tool-result-box {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    padding: 1rem;
+    min-height: 60px;
+    word-break: break-all;
+    font-family: '微软雅黑', 'Segoe UI', 'Consolas', system-ui, monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+}
+
+@media (max-width: 600px) {
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn-block {
+        width: 100%;
+    }
+}
+
+/* 结果状态样式 */
+error-result {
+    color: #d32f2f !important;
+    background: rgba(211, 47, 47, 0.1) !important;
+}
+
+.success-result {
+    color: inherit !important;
+    background: inherit !important;
+}
+
+/* 工具列表页面样式 - 使用通用卡片样式 */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.tool-card {
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.tool-card h3 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #1e2f3a;
+    margin-bottom: 0.75rem;
+}
+
+.tool-card p {
+    font-size: 0.9rem;
+    color: #4a7a8a;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.tool-card .btn {
+    min-width: 120px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .tool-card {
+        padding: 1.2rem;
+    }
 }
