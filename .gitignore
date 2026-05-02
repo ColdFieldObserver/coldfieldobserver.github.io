@@ -1,0 +1,5 @@
+# Ignore Editor Files
+.vs/
+.vscode/
+.idea/
+.trae/
