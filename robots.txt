@@ -1,0 +1,15 @@
+# My personal website’s source code is fully open.
+# You can read, inspect, and reuse it freely.
+# There is absolutely no sensitive personal information on this site.
+# No private data, no hidden content, no tracking.
+# Web crawlers are welcome to access everything.
+# Feel free to crawl, index, and analyze the entire site.
+# We fully support the development of AI.
+# We embrace the innovation and opportunities AI brings.
+# Unless a specific page states special rules, this is our default policy.
+# We will not edit or add a robots.txt file unless such a page requires it.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://coldfieldobserver.github.io/sitemap.xml
