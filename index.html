@@ -7,121 +7,18 @@
     <meta name="keywords" content="ColdFieldObserver, 冷域观者, 逃少音乐档案馆, 逃跑吧少年背景音乐, CFObserver">
     <meta name="description" content="我是冷域观者，一个逃跑吧少年和蛋仔派对玩家，偶尔也玩我的世界、PVZ2和保卫萝卜4，同时还是逃少音乐档案馆的主理人。">
     <title>主页 - 冷域观者的个人网站</title>
-    <link rel="stylesheet" href="style.css">
+    <script>
+        (function() {
+            var redirect = sessionStorage.redirect;
+            delete sessionStorage.redirect;
+            if (redirect && redirect !== location.href) {
+                history.replaceState(null, null, redirect);
+            }
+        })();
+    </script>
 </head>
 <body>
-
-<nav class="navbar mica-card">
-    <div class="logo">
-        <h1>冷域观者的个人网站</h1>
-    </div>
-    <div class="nav-links">
-        <a href="index.html">主页</a>
-        <a href="tools/index.html">工具</a>
-        <a href="about.html">关于</a>
-    </div>
-</nav>
-
-<!-- 主布局：左侧内容 + 右侧侧边栏 -->
-<div class="main-grid">
-    <!-- 主要内容区域 -->
-    <main class="content-area">
-        <div class="content-card mica-card">
-            <h2>欢迎来到冷域观者的个人网站！</h2>
-            <p>我是冷域观者，一个逃跑吧少年和蛋仔派对玩家，偶尔也玩我的世界、PVZ2和保卫萝卜4。曾用名AsyncObserver、蛋仔派对远航蛋、主唱耀星_Eggy、UNI-航行的灯塔、TP-RLX-LIGHT等，喜欢数码和技术。</p>
-            <p>我也接触过编程，C、C++、C#、Python、HTML、CSS、JavaScript都懂一点，有时候也会试着用别的语言重构几个易语言项目玩玩（易语言的缺点你们懂的）。</p>
-            <p>这里是我的个人网站。当然我不在这里发博文，就提供一些工具和资源导航。</p>
-            <!--
-            <div class="badge-list">
-                <span class="badge">#数字存档者</span>
-                <span class="badge">#异步观察</span>
-                <span class="badge">#冷域建造</span>
-                <span class="badge">#低能耗社交</span>
-            </div>
-        -->
-            
-            <!--
-            <h3>逃少音乐档案馆</h3>
-            <p>逃少音乐档案馆，原名“《逃跑吧！少年》游戏背景音乐收集项目”，是一个专注于收集游戏《逃跑吧！少年》的背景音乐的项目。这个项目的视频原先发布在我以前的那个这个B站账号上，后来这个账号被注销了，而这些视频都被迁移到另一个单独的B站账号，就是现在的“逃少音乐档案馆”。</p>
-            <div style="width: 100%; aspect-ratio: 16 / 9;">
-                <iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=116470117828555&bvid=BV1WPZcBQE3z&cid=37844880607&p=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true" style="width: 100%; height: 100%; border:none;"></iframe>
-            </div>
-        -->
-            
-            <h3>我的蛋仔派对ID</h3>
-            <div style="text-align: center;">
-                <a href="image/eggypartyid.jpg" target="_blank">
-                    <img src="image/eggypartyid.jpg" alt="我的蛋仔派对大号" style="max-width: 100%; height: auto; cursor: zoom-in;">
-                </a>
-                <p style="margin-top: 1rem;">实况主灯塔</p>
-                <a href="image/eggypartyid2.jpg" target="_blank">
-                    <img src="image/eggypartyid2.jpg" alt="我的蛋仔派对小号" style="max-width: 100%; height: auto; cursor: zoom-in;">
-                </a>
-                <p style="margin-top: 1rem;">翌测</p>
-            </div>
-            
-            <div class="intro-signature">
-                <p>这个网站的框架是用AI搭的，我只负责内容填充。不过，说句实话，如果我不给复杂的提示词，AI也生成不出来这种“风格缝合怪”的网站。<del>另外，AI总是喜欢把HTML代码和CSS、JS代码写一块，即使我特意说明分离也是如此。</del>最终思考权还是在人类手中。</p>
-            </div>
-        </div>
-    </main>
-
-    <!-- 右侧侧边栏（手机端将自动移至底部） -->
-    <aside class="sidebar">
-        <div class="sidebar-block mica-card">
-            <h3>个人档案</h3>
-            <ul>
-                <li>兴趣爱好：打游戏、听音乐、看视频、户外散步、偶尔写点东西</li>
-                <li>喜欢玩的游戏：逃跑吧少年、蛋仔派对、我的世界、植物大战僵尸2、保卫萝卜4、光遇</li>
-                <li>主阵地：逃少音乐档案馆 (B站 & WP独立站)</li>
-            </ul>
-        </div>
-
-        <div class="sidebar-block mica-card">
-            <h3>友情链接</h3>
-            <div class="link-list">
-                <ul>
-                    <li><a href="https://space.bilibili.com/3632301571311734" target="_blank">逃少音乐档案馆（B站）</a></li>
-                    <li><a href="https://dmmdzzmusicarchive.wordpress.com/" target="_blank">逃少音乐档案馆（WP）</a></li>
-                    <li><a href="https://space.bilibili.com/3706982592678629" target="_blank">冷域观者的B站个人空间</a></li>
-                    <li><a href="https://coldfieldobserver.mysxl.cn/" target="_blank">冷域观者的博客（上线了）</a></li>
-                    <li><a href="https://alonewalkman.wordpress.com/" target="_blank">冷域观者的博客（WordPress）</a></li>
-                    <li><a href="https://github.com/ColdFieldObserver" target="_blank">冷域观者的GitHub（ColdFieldObserver）</a></li>
-                    <li><a href="https://alonevoyager.github.io/" target="_blank">Alone Voyager的GitHub Pages</a></li>
-                    <li><a href="https://danxiaolan.wordpress.com/" target="_blank">蛋小蓝的博客（建设中）</a></li>
-                </ul>
-                <p style="margin-top: 0.8rem; font-size:0.8rem;">部分链接可能会失效，我如果有时间会及时更新的。</p>
-            </div>
-        </div>
-
-
-        <div class="sidebar-block mica-card">
-            <div class="link-list">
-            <h3>工具</h3>
-                <ul>
-                    <li><a href="tools/base64/index.html">Base64编解码工具</a></li>
-                    <li><a href="tools/unicode/index.html">Unicode编解码工具</a></li>
-                    <li><a href="tools/timestamp/index.html">时间戳转换工具</a></li>
-                    <li><a href="tools/url/index.html">URL编码/解码工具</a></li>
-                    <li>更多工具敬请期待...</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="sidebar-block mica-card">
-            <h3>公告</h3>
-            <p>2026年5月13日，更换B站账号。</p>
-            <p>2026年5月3日：个人博客迎来重大更新。</p>
-        </div>
-    </aside>
-</div>
-
-<div class="footer-note">
-    <p>2022-2026 冷域观者</p>
-    <p>本网站由GitHub Pages托管，网站的源代码在<a href="https://github.com/ColdFieldObserver/coldfieldobserver.github.io" target="_blank">GitHub仓库</a>。</p>
-</div>
-
-<!-- 可忽略的简单JS（用于轻度交互如控制台输出，无必需） -->
-<script src="indexscript.js"></script>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
 </body>
 </html>
