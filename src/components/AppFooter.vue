@@ -3,7 +3,7 @@
     <p>2022-2026 冷域观者</p>
     <p>
       本网站由GitHub Pages托管，网站的源代码在
-      <a href="https://github.com/ColdFieldObserver/coldfieldobserver.github.io" target="_blank">GitHub仓库</a>。
+      <a href="https://github.com/ColdFieldObserver/coldfieldobserver.github.io" target="_blank" class="footer-note-link">GitHub仓库</a>。
     </p>
   </div>
 </template>
@@ -15,5 +15,10 @@
   font-size: 0.75rem;
   color: #1f586d;
   opacity: 0.8;
+}
+
+.footer-note-link {
+  text-decoration: none;
+  color: #1f6d8a;
 }
 </style>

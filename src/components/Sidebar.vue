@@ -37,6 +37,7 @@
     </SidebarBlock>
 
     <SidebarBlock title="公告">
+      <p>2026年5月31日：使用Vue3重构本网站，降低维护成本。</p>
       <p>2026年5月13日：更换B站账号。</p>
       <p>2026年5月3日：个人博客迎来重大更新。</p>
     </SidebarBlock>

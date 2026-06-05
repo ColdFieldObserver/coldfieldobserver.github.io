@@ -19,7 +19,6 @@ body {
   border-radius: 32px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255,255,255,0.5);
   border: 1px solid rgba(255,255,255,0.4);
-  transition: all 0.2s ease;
 }
 
 .main-grid {
@@ -38,7 +37,6 @@ body {
 .content-card {
   padding: 2rem 2rem;
   width: 100%;
-  transition: transform 0.2s;
 }
 
 .content-card h2 {
@@ -113,20 +111,8 @@ hr {
   border-radius: 40px;
   box-shadow: 0 4px 12px rgba(30, 95, 122, 0.25), inset 0 1px 0 rgba(255,255,255,0.25);
   cursor: pointer;
-  transition: all 0.2s ease;
   text-decoration: none;
   line-height: 1.4;
-}
-
-.btn:hover {
-  background: linear-gradient(135deg, #4a9ac0 0%, #2a6f8a 100%);
-  box-shadow: 0 6px 18px rgba(30, 95, 122, 0.35), inset 0 1px 0 rgba(255,255,255,0.3);
-  transform: translateY(-1px);
-}
-
-.btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(30, 95, 122, 0.25);
 }
 
 .btn-secondary {
@@ -139,7 +125,6 @@ hr {
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.5);
   color: #0b2b38;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
 .btn-ghost {
@@ -152,7 +137,6 @@ hr {
 .btn-ghost:hover {
   background: rgba(31, 109, 138, 0.08);
   color: #043b4b;
-  border-color: rgba(31, 109, 138, 0.55);
 }
 
 .btn-sm {
@@ -290,12 +274,6 @@ hr {
 .tool-card {
   padding: 1.5rem;
   text-align: center;
-  transition: all 0.3s ease;
-}
-
-.tool-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255,255,255,0.5);
 }
 
 .tool-card h3 {
