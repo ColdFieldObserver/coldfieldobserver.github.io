@@ -13,12 +13,12 @@
         <ul>
           <li><a href="https://space.bilibili.com/3632301571311734" target="_blank">逃少音乐档案馆（B站）</a></li>
           <li><a href="https://dmmdzzmusicarchive.wordpress.com/" target="_blank">逃少音乐档案馆（WP）</a></li>
-          <li><a href="https://space.bilibili.com/3706982592678629" target="_blank">冷域观者的B站个人空间</a></li>
+          <li><a href="https://space.bilibili.com/3706990868040193" target="_blank">冷域观者的B站个人空间</a></li>
           <li><a href="https://coldfieldobserver.mysxl.cn/" target="_blank">冷域观者的博客（上线了）</a></li>
           <li><a href="https://alonewalkman.wordpress.com/" target="_blank">冷域观者的博客（WordPress）</a></li>
           <li><a href="https://github.com/ColdFieldObserver" target="_blank">冷域观者的GitHub（ColdFieldObserver）</a></li>
-          <li><a href="https://alonevoyager.github.io/" target="_blank">Alone Voyager的GitHub Pages</a></li>
-          <li><a href="https://danxiaolan.wordpress.com/" target="_blank">蛋小蓝的博客（建设中）</a></li>
+          <li><a href="https://danxiaolan.wordpress.com/" target="_blank">蛋小蓝的博客</a></li>
+          <li><a href="https://eggyreshub.wordpress.com/" target="_blank">蛋仔资源站</a></li>
         </ul>
         <p style="margin-top: 0.8rem; font-size:0.8rem;">部分链接可能会失效，我如果有时间会及时更新的。</p>
       </div>
@@ -37,6 +37,7 @@
     </SidebarBlock>
 
     <SidebarBlock title="公告">
+      <p>2026年6月19日：给网站添加自定义域名。</p>
       <p>2026年5月31日：使用Vue3重构本网站，降低维护成本。</p>
       <p>2026年5月13日：更换B站账号。</p>
       <p>2026年5月3日：个人博客迎来重大更新。</p>
