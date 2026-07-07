@@ -4,7 +4,7 @@
       <ul>
         <li>兴趣爱好：打游戏、听音乐、看视频、户外散步、偶尔写点东西</li>
         <li>喜欢玩的游戏：逃跑吧少年、蛋仔派对、我的世界、植物大战僵尸2、保卫萝卜4、光遇</li>
-        <li>主阵地：逃少音乐档案馆 (B站 & WP独立站)</li>
+        <li>主阵地：逃少音乐档案馆（B站 & WP独立站）</li>
       </ul>
     </SidebarBlock>
 
@@ -13,12 +13,13 @@
         <ul>
           <li><a href="https://space.bilibili.com/3632301571311734" target="_blank">逃少音乐档案馆（B站）</a></li>
           <li><a href="https://dmmdzzmusicarchive.wordpress.com/" target="_blank">逃少音乐档案馆（WP）</a></li>
-          <li><a href="https://space.bilibili.com/3706990868040193" target="_blank">冷域观者的B站个人空间</a></li>
+          <li><a href="https://xn--6mq477k.neocities.org/cfobserver_bilibili_account" target="_blank">冷域观者的B站个人空间</a></li>
           <li><a href="https://coldfieldobserver.mysxl.cn/" target="_blank">冷域观者的博客（上线了）</a></li>
           <li><a href="https://alonewalkman.wordpress.com/" target="_blank">冷域观者的博客（WordPress）</a></li>
           <li><a href="https://github.com/ColdFieldObserver" target="_blank">冷域观者的GitHub（ColdFieldObserver）</a></li>
           <li><a href="https://danxiaolan.wordpress.com/" target="_blank">蛋小蓝的博客</a></li>
           <li><a href="https://eggyreshub.wordpress.com/" target="_blank">蛋仔资源站</a></li>
+          <li><a href="https://coldfieldobserver.github.io/xxtsoft-mirror" target="_blank">xxtsoft镜像站</a></li>
         </ul>
         <p style="margin-top: 0.8rem; font-size:0.8rem;">部分链接可能会失效，我如果有时间会及时更新的。</p>
       </div>
@@ -51,21 +52,55 @@ import SidebarBlock from './SidebarBlock.vue'
 
 <style scoped>
 .sidebar {
-  flex: 1.2;
-  display: flex;
-  flex-direction: column;
-  gap: 1.8rem;
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+}
+
+.sidebar-block {
+    padding: 1.5rem 1.6rem;
+    border-radius: 28px;
+}
+
+.sidebar-block h3 {
+    font-weight: 600;
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+    color: #1a3a48;
+    border-left: 4px solid #287a9e;
+    padding-left: 12px;
+}
+
+.sidebar-block ul, .sidebar-block p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #1e3a44;
+}
+
+.sidebar-block li {
+    margin-bottom: 0.6rem;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-block li::before {
+    content: "✦";
+    color: #3e7b99;
+    font-size: 0.8rem;
 }
 
 .link-list a {
-  text-decoration: none;
-  color: #1f6d8a;
-  border-bottom: 1px dotted #6f9fb3;
+    text-decoration: none;
+    color: #1f6d8a;
+    border-bottom: 1px dotted #6f9fb3;
 }
 
 .link-list a:hover {
-  color: #043b4b;
-  border-bottom-style: solid;
+    color: #043b4b;
+    border-bottom-style: solid;
 }
 
 @media (max-width: 880px) {

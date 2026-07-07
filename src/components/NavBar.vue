@@ -24,7 +24,6 @@
 }
 
 .logo h1 {
-  font-family: '微软雅黑', 'Segoe UI', '宋体', 'SimSun', Tahoma, Geneva, Verdana, system-ui, sans-serif;
   font-weight: 500;
   font-size: 1.7rem;
   letter-spacing: -0.3px;
@@ -56,12 +55,12 @@
 @media (max-width: 880px) {
   .navbar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     padding: 1rem 1.4rem;
   }
   .nav-links {
     width: 100%;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 1.5rem;
   }
 }

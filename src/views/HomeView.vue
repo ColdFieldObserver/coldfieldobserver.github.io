@@ -7,12 +7,12 @@
 
     <h3>我的蛋仔派对ID</h3>
     <div style="text-align: center;">
-      <a :href="baseUrl + 'image/eggypartyid.jpg'" target="_blank">
-        <img :src="baseUrl + 'image/eggypartyid.jpg'" alt="我的蛋仔派对大号" style="max-width: 100%; height: auto; cursor: zoom-in;">
+      <a :href="baseUrl + 'image/eggypartyid.webp'" target="_blank">
+        <img :src="baseUrl + 'image/eggypartyid.webp'" alt="我的蛋仔派对大号" style="max-width: 100%; height: auto; cursor: zoom-in;">
       </a>
       <p style="margin-top: 1rem;">实况主灯塔</p>
-      <a :href="baseUrl + 'image/eggypartyid2.jpg'" target="_blank">
-        <img :src="baseUrl + 'image/eggypartyid2.jpg'" alt="我的蛋仔派对小号" style="max-width: 100%; height: auto; cursor: zoom-in;">
+      <a :href="baseUrl + 'image/eggypartyid2.webp'" target="_blank">
+        <img :src="baseUrl + 'image/eggypartyid2.webp'" alt="我的蛋仔派对小号" style="max-width: 100%; height: auto; cursor: zoom-in;">
       </a>
       <p style="margin-top: 1rem;">翌测</p>
     </div>

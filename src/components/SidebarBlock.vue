@@ -21,7 +21,6 @@ defineProps({
 }
 
 .sidebar-block h3 {
-  font-family: '微软雅黑', 'Segoe UI', '宋体', 'SimSun', Tahoma, Geneva, Verdana, system-ui, sans-serif;
   font-weight: 600;
   font-size: 1.35rem;
   margin-bottom: 1rem;

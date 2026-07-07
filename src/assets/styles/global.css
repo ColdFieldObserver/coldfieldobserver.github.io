@@ -1,11 +1,21 @@
+/* Noto Serif */
+@import url("https://fontsapi.zeoseven.com/285/main/result.css");
+
+/* Roboto Slab */
+@import url("https://fonts.cdnfonts.com/css/roboto-slab-2");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
+  scrollbar-width: auto;
+  scrollbar-color: #477e9b rgb(220, 240, 250);
 }
 
 body {
-  font-family: '微软雅黑', 'Segoe UI', '宋体', 'SimSun', Tahoma, Geneva, Verdana, system-ui, sans-serif;
+  font-family: 'Roboto Slab', 'Segoe UI', 'Noto Serif CJK', 'Microsoft YaHei', sans-serif;
+  font-display: swap;
   background: linear-gradient(135deg, #b3e0ff 0%, #3b8cbf 100%);
   min-height: 100vh;
   padding: 2rem 1.5rem;
@@ -40,7 +50,6 @@ body {
 }
 
 .content-card h2 {
-  font-family: '微软雅黑', 'Segoe UI', '宋体', 'SimSun', Tahoma, Geneva, Verdana, system-ui, sans-serif;
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 1rem;
@@ -248,7 +257,6 @@ hr {
   padding: 1rem;
   min-height: 60px;
   word-break: break-all;
-  font-family: '微软雅黑', 'Segoe UI', 'Consolas', system-ui, monospace;
   font-size: 0.9rem;
   line-height: 1.4;
   margin-bottom: 0.75rem;
@@ -329,18 +337,4 @@ hr {
   .content-card h2 {
     font-size: 1.7rem;
   }
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(220, 240, 250, 0.5);
-  border-radius: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #477e9b;
-  border-radius: 8px;
 }
