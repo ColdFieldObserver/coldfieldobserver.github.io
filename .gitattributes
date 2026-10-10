@@ -1,1 +1,4 @@
 * text=auto eol=lf
+
+# VitePress Project
+docs/** -linguist-documentation

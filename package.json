@@ -1,22 +1,30 @@
 {
-  "name": "coldfieldobserver.github.io",
+  "name": "cfo-mecha-site",
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "description": "冷域观者个人网站 · 机甲重构版（VitePress + Vue3 + TypeScript + SCSS）",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "npm run build && wrangler dev",
-    "deploy": "npm run build && wrangler deploy"
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json || true"
   },
   "dependencies": {
-    "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue": "^3.5.41"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.39.0",
-    "@vitejs/plugin-vue": "^5.2.3",
-    "vite": "^6.3.2",
-    "wrangler": "^4.95.0"
+    "@types/node": "^24.13.3",
+    "gray-matter": "^4.0.3",
+    "markdown-it-deflist": "^4.0.0",
+    "markdown-it-footnote": "^4.0.0",
+    "markdown-it-mark": "^4.0.0",
+    "markdown-it-mathjax3": "^4.3.2",
+    "markdown-it-sub": "^2.0.0",
+    "markdown-it-sup": "^2.0.0",
+    "markdown-it-task-lists": "^2.1.1",
+    "sass": "^1.104.0",
+    "typescript": "~5.9.3",
+    "vitepress": "^1.6.4"
   }
 }

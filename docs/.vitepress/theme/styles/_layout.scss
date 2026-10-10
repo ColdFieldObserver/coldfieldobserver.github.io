@@ -1,0 +1,115 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================================
+// 三栏布局
+//   ┌──────────── 顶部驾驶舱条（固定）────────────┐
+//   │ 左导航 │      主内容（唯一滚动容器）      │ 右部件 │
+//   左右侧栏在 ≤1024px 收起为抽屉（见 _sidebar.scss）
+// ============================================================
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: $header-h;
+  padding: 0 22px;
+  background: $sidebar-bg;
+  border-bottom: 2px solid $edge;
+  // 45° 装甲斜纹
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--accent-soft) 0,
+    var(--accent-soft) 2px,
+    transparent 2px,
+    transparent 9px
+  );
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+
+    .brand-mark {
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      color: var(--on-accent);
+      background: $accent-grad;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      box-shadow: 0 0 14px rgba(45, 140, 255, 0.45);
+    }
+
+    .brand-text {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: $ink;
+      white-space: nowrap;
+      text-shadow: 0 0 8px rgba(45, 140, 255, 0.25);
+    }
+
+    .brand-sub {
+      display: none;
+      font-family: $font-mono;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: $ink-3;
+      text-transform: uppercase;
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+// ---- 主内容滚动容器 ----
+.site-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: calc(100vh - #{$header-h});
+  margin-top: $header-h;
+  margin-left: $sidebar-left-w;
+  margin-right: $sidebar-right-w;
+  padding: 30px 38px 60px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: $bg;
+  // 内容区的机甲网格
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  @include thin-scrollbar;
+
+  @include respond-below($bp-lg) {
+    padding: 26px 26px 52px;
+  }
+}
+
+// ---- 响应式：≤1024px 侧栏收起为抽屉 ----
+@include respond-below($bp-md) {
+  .site-main {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 24px 18px 44px;
+  }
+}
+
+@include respond-below($bp-2xs) {
+  .site-main {
+    padding: 20px 14px 36px;
+  }
+}
