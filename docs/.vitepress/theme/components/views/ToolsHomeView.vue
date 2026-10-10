@@ -83,7 +83,6 @@ import { TOOL_LINKS } from '@/config';
   }
 
   &:hover {
-    transform: translateY(-3px);
     border-color: $edge;
     box-shadow: $shadow-brand;
 

@@ -70,7 +70,6 @@ const coverSrc = computed(() => {
 
   &:hover {
     border-color: $edge;
-    transform: translateY(-3px);
     box-shadow: $shadow-brand;
 
     &::before {

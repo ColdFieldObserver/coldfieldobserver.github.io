@@ -82,7 +82,6 @@ const terms = collectTerms('categories');
   }
 
   &:hover {
-    transform: translateY(-2px);
     border-color: $edge;
     box-shadow: $shadow-brand;
 

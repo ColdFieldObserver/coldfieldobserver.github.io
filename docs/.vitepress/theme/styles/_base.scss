@@ -37,6 +37,9 @@
   --inline-code-ink: #7cc0ff;
   --grid-line: rgba(45, 140, 255, 0.055);
   --overlay: rgba(4, 10, 18, 0.68);
+  // 遮罩的「透明同色」起始态：与 --overlay 同色相、alpha=0，
+  // 供 <dialog> 背景在着色与透明之间平滑过渡（见 SearchDialog.vue）
+  --overlay-veil: rgba(4, 10, 18, 0);
 }
 
 :root {
@@ -64,6 +67,8 @@
   --inline-code-ink: #0b4b9e;
   --grid-line: rgba(18, 96, 204, 0.05);
   --overlay: rgba(12, 24, 40, 0.42);
+  // 遮罩起始态（同色相、alpha=0），见深色主题同名变量说明
+  --overlay-veil: rgba(12, 24, 40, 0);
 }
 
 // 显式深色

@@ -42,13 +42,13 @@ const nextPost = computed(() =>
 </script>
 
 <template>
-  <article class="post-view">
+  <article class="post-view" itemscope itemtype="https://schema.org/Article">
     <nav class="post-back" aria-label="返回日志列表">
       <a class="back-link" :href="withBase('/posts/')">← 返回日志终端</a>
     </nav>
 
     <header class="post-header">
-      <h1 class="post-title">{{ frontmatter.title }}</h1>
+      <h1 class="post-title" itemprop="headline">{{ frontmatter.title }}</h1>
 
       <div class="post-meta">
         <span class="post-author">{{ SITE.author }}</span>
@@ -67,7 +67,7 @@ const nextPost = computed(() =>
       </div>
     </header>
 
-    <div class="post-content"><Content /></div>
+    <div class="post-content" itemprop="articleBody"><Content /></div>
 
     <footer class="post-footer">
       <nav class="post-nav" aria-label="上一篇 / 下一篇">

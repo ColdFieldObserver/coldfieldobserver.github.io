@@ -102,6 +102,12 @@ onBeforeUnmount(() => {
 @use '../styles/variables' as *;
 @use '../styles/mixins' as *;
 
+// 面板入场用「切角生长」替代硬切：
+// 起点是与命中态顶点数相同的未切角矩形，右下的装甲缺口随面板一起切出来。
+// 两者都是 5 顶点 polygon，clip-path 可逐点插值，因此能和位移同步过渡。
+$clip-flat: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
+$clip-cut: mecha-clip($cut-l);
+
 .search-dialog {
   position: fixed;
   display: none;
@@ -116,32 +122,52 @@ onBeforeUnmount(() => {
   background: $card;
   border: 1px solid $line;
   border-top: 2px solid var(--accent);
-  clip-path: mecha-clip(20px);
+  clip-path: $clip-flat;
   box-shadow: $shadow-float;
   opacity: 0;
-  transform: translateY(12px);
+  // 入场姿态与参考站对齐：下沉 12px + 缩放 0.98。
+  // 单靠位移会显得像整块平移，叠加微小缩放后面板才是「浮出」，
+  // 起止都贴近原位，观感明显柔和。
+  transform: translateY(12px) scale(0.98);
   transition:
     opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    clip-path 0.24s cubic-bezier(0.22, 1, 0.36, 1),
     display 0.24s allow-discrete,
     overlay 0.24s allow-discrete;
 
   &[open] {
     display: block;
     opacity: 1;
+    clip-path: $clip-cut;
     transform: none;
   }
 
+  // 遮罩：与面板同一时长同步亮起 / 收起。
+  // 起始态必须显式写成「同色相 alpha=0」，否则 backdrop 只会在
+  // 打开瞬间硬切到实色，这正是原先的突兀来源。
   &::backdrop {
-    background: var(--overlay);
-    backdrop-filter: blur(3px);
+    background-color: var(--overlay-veil);
+    backdrop-filter: blur(0);
+    transition: background-color 0.24s ease, backdrop-filter 0.24s ease;
+  }
+
+  &[open]::backdrop {
+    background-color: var(--overlay);
+    backdrop-filter: blur(4px);
   }
 }
 
 @starting-style {
   .search-dialog[open] {
     opacity: 0;
-    transform: translateY(12px);
+    clip-path: $clip-flat;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  .search-dialog[open]::backdrop {
+    background-color: var(--overlay-veil);
+    backdrop-filter: blur(0);
   }
 }
 

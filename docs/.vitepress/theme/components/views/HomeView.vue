@@ -248,7 +248,6 @@ const MODULES = [
   }
 
   &:hover {
-    transform: translateY(-3px);
     border-color: $edge;
     box-shadow: $shadow-brand;
 
