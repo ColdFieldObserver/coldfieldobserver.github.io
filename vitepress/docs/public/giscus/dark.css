@@ -1,0 +1,98 @@
+/* ============================================================
+   Giscus 自定义主题 · 机甲蓝（深色）
+   配色对齐站点 _base.scss 的深色变量：
+     ink  #d3e6ff / panel #101d2e / accent #2d8cff
+   ============================================================ */
+:root {
+  color-scheme: dark;
+  --color-canvas-default: #0e1a2a;
+  --color-canvas-overlay: #15273e;
+  --color-canvas-inset: #0b1420;
+  --color-canvas-subtle: #142438;
+  --color-border-default: #22344b;
+  --color-border-muted: #1c2c40;
+  --color-fg-default: #d3e6ff;
+  --color-fg-muted: #9bb5da;
+  --color-fg-subtle: #6b8aa8;
+  --color-accent-fg: #5fb0ff;
+  --color-accent-emphasis: #2d8cff;
+  --color-accent-muted: rgba(45, 140, 255, 0.32);
+  --color-accent-subtle: #12253c;
+  --color-btn-text: #d3e6ff;
+  --color-btn-bg: #15273e;
+  --color-btn-border: #2b3f59;
+  --color-btn-hover-bg: #1c3252;
+  --color-btn-hover-border: #2d8cff;
+  --color-btn-primary-text: #04101d;
+  --color-btn-primary-bg: #2d8cff;
+  --color-btn-primary-border: #2d8cff;
+  --color-btn-primary-hover-bg: #5fb0ff;
+  --color-btn-primary-hover-border: #5fb0ff;
+  --color-neutral-muted: rgba(107, 138, 168, 0.22);
+  --color-primer-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --color-primer-shadow-focus: 0 0 0 3px rgba(45, 140, 255, 0.24);
+  --color-social-reaction-bg-hover: #17324f;
+  --color-social-reaction-bg-reacted-hover: #1d4270;
+}
+
+body,
+.gsc-main {
+  color: #d3e6ff;
+  background-color: #0e1a2a;
+  /* 与站点一致的机甲网格底纹 */
+  background-image: linear-gradient(rgba(45, 140, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 140, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.gsc-comment-box-textarea,
+.gsc-comment-box-textarea textarea,
+.gsc-comment-box-textarea textarea:focus {
+  color: #d3e6ff;
+  background: #0b1420;
+  border-color: #2b3f59;
+  border-radius: 2px;
+}
+
+.gsc-comment-box-textarea textarea:focus {
+  border-color: #2d8cff;
+  box-shadow: 0 0 0 3px rgba(45, 140, 255, 0.18);
+}
+
+.gsc-comment-box,
+.gsc-comment {
+  border-color: #22344b;
+  border-radius: 3px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+}
+
+.gsc-comment-header {
+  background: #142438;
+  border-color: #22344b;
+  border-radius: 2px 2px 0 0;
+  border-left: 3px solid #2d8cff;
+}
+
+.gsc-comment-content,
+.gsc-timeline {
+  color: #9bb5da;
+}
+
+.gsc-comment-content a,
+.gsc-header a,
+.gsc-footer a {
+  color: #5fb0ff;
+}
+
+.gsc-comment-content a:hover,
+.gsc-header a:hover,
+.gsc-footer a:hover {
+  color: #8fcaff;
+}
+
+button:focus-visible,
+a:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #2d8cff;
+  outline-offset: 2px;
+}

@@ -1,0 +1,199 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================================
+// 工具页通用表单控件样式
+//   各工具组件内只负责布局，控件外观统一在此定义（全局，避免每个
+//   组件重复写 scoped 样式）
+// ============================================================
+
+.tool-view {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.tool-head {
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed $line;
+
+  h1 {
+    font-size: clamp(22px, 3.4vw, 28px);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: $ink;
+  }
+
+  p {
+    margin-top: 8px;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: $ink-2;
+  }
+}
+
+.tool-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  font-family: $font-mono;
+  font-size: 12.5px;
+  letter-spacing: 0.5px;
+  color: $accent-2;
+
+  &:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+}
+
+// ---- 表单字段 ----
+.field {
+  margin-bottom: 16px;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 7px;
+  font-family: $font-mono;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: $ink-3;
+}
+
+.mecha-input,
+.mecha-textarea {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid $line;
+  border-left: 2px solid $edge;
+  border-radius: 0;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+
+  &::placeholder {
+    color: $ink-3;
+  }
+
+  &:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+}
+
+.mecha-textarea {
+  min-height: 130px;
+  font-family: $font-mono;
+  font-size: 13.5px;
+}
+
+// datetime-local 等原生控件在深色下的可读性
+.mecha-input[type='datetime-local'] {
+  color-scheme: light;
+
+  @include dark-mode {
+    color-scheme: dark;
+  }
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 2px;
+}
+
+.hint-line {
+  margin-top: 6px;
+  font-family: $font-mono;
+  font-size: 11.5px;
+  letter-spacing: 0.3px;
+  color: $ink-3;
+}
+
+// ---- 说明卡片 ----
+.info-block {
+  margin-top: 26px;
+  padding: 15px 18px;
+  background: var(--panel);
+  border: 1px solid $line;
+  border-left: 2px solid var(--accent);
+  clip-path: mecha-clip($cut-m);
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-family: $font-mono;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: $accent-2;
+
+    &::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+  }
+
+  ul {
+    margin: 0 0 0 1.1em;
+    list-style: none;
+  }
+
+  li {
+    position: relative;
+    padding: 3px 0 3px 14px;
+    font-size: 13.8px;
+    line-height: 1.7;
+    color: $ink-2;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 11px;
+      left: 2px;
+      width: 5px;
+      height: 5px;
+      background: var(--accent);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+  }
+
+  p {
+    font-size: 13.8px;
+    line-height: 1.75;
+    color: $ink-2;
+
+    + p {
+      margin-top: 8px;
+    }
+  }
+
+  pre {
+    margin: 8px 0;
+    padding: 10px 12px;
+    overflow-x: auto;
+    font-family: $font-mono;
+    font-size: 12.8px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--code-bg);
+    border: 1px solid $line;
+    @include thin-scrollbar;
+  }
+}

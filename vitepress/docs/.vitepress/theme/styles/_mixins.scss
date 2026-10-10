@@ -1,0 +1,99 @@
+@use 'variables' as *;
+
+// ============================================================
+// 通用 mixins
+// ============================================================
+
+/// 响应式断点：传统 max-width 写法（避免 Media Queries Level 4 范围语法，
+/// LightningCSS 会把其重写为 width<=xxx，旧内核会整块丢弃响应式规则）
+@mixin respond-below($bp) {
+  @media (max-width: $bp) {
+    @content;
+  }
+}
+
+/// 深色模式覆写：同时覆盖「手动 data-theme="dark"」与「auto + 系统深色」两种情况。
+@mixin dark-mode {
+  [data-theme='dark'] & {
+    @content;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) & {
+      @content;
+    }
+  }
+}
+
+/// 机甲装甲板：斜切角 + 描边 + 网格质感底
+@mixin panel-surface($radius: 0) {
+  position: relative;
+  background: $panel;
+  border: 1px solid $line;
+  border-radius: $radius;
+}
+
+/// 标题前的机甲装饰条
+@mixin mecha-rule {
+  content: '';
+  display: block;
+  height: 2px;
+  margin-top: 12px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--edge) 0,
+    var(--edge) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  opacity: 0.75;
+}
+
+/// 扫描线覆盖层（::after 使用）
+@mixin scan-lines($opacity: 0.05) {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(45, 140, 255, $opacity) 0,
+    rgba(45, 140, 255, $opacity) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+/// 多行文本截断
+@mixin clamp-lines($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/// 机甲滚动条
+@mixin thin-scrollbar {
+  scrollbar-width: auto;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border: 1px solid var(--scrollbar-track);
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+}
+
+/// 焦点可见性（键盘导航）
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}

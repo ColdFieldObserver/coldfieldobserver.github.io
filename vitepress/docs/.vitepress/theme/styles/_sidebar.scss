@@ -1,0 +1,366 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================================
+// 左侧导航栏 + 右侧部件栏 + 移动端抽屉
+//   两者均为 fixed，位于顶部驾驶舱条之下（top: $header-h）
+// ============================================================
+
+.sidebar-left,
+.sidebar-right {
+  position: fixed;
+  top: $header-h;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 14px;
+  overflow-y: auto;
+  background: $sidebar-bg;
+  @include thin-scrollbar;
+}
+
+// ---- 左侧导航 ----
+.sidebar-left {
+  left: 0;
+  width: $sidebar-left-w;
+  border-right: 2px solid $edge;
+  background-image: linear-gradient(180deg, var(--accent-soft) 0%, transparent 22%);
+
+  .side-block {
+    @include panel-surface;
+    padding: 14px 13px;
+    clip-path: mecha-clip($cut-m);
+
+    &::after {
+      @include mecha-rule;
+    }
+
+    &.plain::after {
+      content: none;
+    }
+  }
+
+  .side-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: $accent-2;
+    border-bottom: 1px solid $line;
+
+    &::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 10px;
+    font-size: 14.5px;
+    color: $ink-2;
+    border-left: 3px solid transparent;
+    transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+    @include focus-ring;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      color: $ink-3;
+      transition: color 0.22s ease;
+    }
+
+    &:hover {
+      color: $ink;
+      background: var(--accent-soft);
+      border-left-color: $edge;
+
+      svg {
+        color: var(--accent);
+      }
+    }
+
+    &.active {
+      color: $ink;
+      font-weight: 600;
+      background: var(--accent-soft);
+      border-left-color: var(--accent);
+
+      svg {
+        color: var(--accent);
+      }
+    }
+  }
+
+  // 系统状态小面板
+  .sys-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 4px 0;
+    font-family: $font-mono;
+    font-size: 12px;
+    color: $ink-2;
+
+    b {
+      color: var(--accent-2);
+      font-weight: 600;
+    }
+  }
+
+  .sys-bar {
+    height: 4px;
+    margin-top: 6px;
+    background: var(--line);
+    overflow: hidden;
+
+    i {
+      display: block;
+      height: 100%;
+      background: $accent-grad;
+    }
+  }
+}
+
+// ---- 右侧部件栏 ----
+.sidebar-right {
+  right: 0;
+  width: $sidebar-right-w;
+  border-left: 2px solid $edge;
+  background-image: linear-gradient(180deg, var(--accent-soft) 0%, transparent 22%);
+
+  .widget {
+    @include panel-surface;
+    padding: 15px 15px 16px;
+    clip-path: mecha-clip($cut-m);
+  }
+
+  .widget-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: $accent-2;
+    border-bottom: 1px solid $line;
+
+    &::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+  }
+
+  .widget-list {
+    display: flex;
+    flex-direction: column;
+
+    a,
+    li {
+      padding: 7px 0;
+      font-size: 13.8px;
+      line-height: 1.55;
+      color: $ink-2;
+      border-bottom: 1px dashed $line;
+      @include clamp-lines(2);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    a {
+      transition: color 0.22s ease, padding-left 0.22s ease;
+
+      &:hover {
+        color: var(--accent-2);
+        padding-left: 5px;
+      }
+    }
+  }
+
+  .widget-empty,
+  .widget-note {
+    font-size: 13px;
+    line-height: 1.65;
+    color: $ink-3;
+  }
+
+  .widget-more {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: $font-mono;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: $accent-2;
+
+    &:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+  }
+
+  // 友情链接
+  .social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 10px;
+      font-size: 13.5px;
+      color: $ink-2;
+      background: $card;
+      border: 1px solid $line;
+      clip-path: mecha-clip-dual(6px);
+      transition: color 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        color: $ink-3;
+        transition: color 0.22s ease;
+      }
+
+      &:hover {
+        color: var(--accent-2);
+        background: var(--accent-soft);
+        border-color: $edge;
+
+        svg {
+          color: var(--accent);
+        }
+      }
+    }
+  }
+
+  // 公告时间线
+  .notice-item {
+    display: flex;
+    gap: 9px;
+    padding: 6px 0;
+    font-size: 13.2px;
+    line-height: 1.6;
+    color: $ink-2;
+    border-bottom: 1px dashed $line;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .notice-date {
+      flex: 0 0 auto;
+      font-family: $font-mono;
+      font-size: 11.5px;
+      color: $accent-2;
+    }
+  }
+}
+
+// ============================================================
+// 移动端抽屉
+//   z-index 层级（自下而上）：
+//      99  .sidebar-overlay                 遮罩（点击关闭）
+//     100  .sidebar-left / .sidebar-right   抽屉面板
+//     120  .site-header                     顶部驾驶舱条（汉堡 / 关闭按钮）
+//   注意：遮罩在 DOM 上位于 <header> 之外，否则会被 header 的层叠上下文
+//   抬到抽屉之上（见 SiteHeader.vue 注释）。
+// ============================================================
+.drawer-btn {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  color: $accent-2;
+  background: var(--accent-soft);
+  border: 1px solid $edge;
+  clip-path: mecha-clip(9px);
+  transition: background 0.22s ease, color 0.22s ease;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    color: var(--on-accent);
+    background: var(--accent);
+  }
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: var(--overlay);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+@include respond-below($bp-md) {
+  .drawer-btn {
+    display: flex;
+  }
+
+  .sidebar-left {
+    transform: translateX(-100%);
+    box-shadow: $shadow-float;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+
+  .sidebar-right {
+    left: auto;
+    right: 0;
+    width: min($sidebar-right-w, calc(100vw - 44px));
+    visibility: hidden;
+    transform: translateX(100%);
+    box-shadow: $shadow-float;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.28s;
+
+    &.open {
+      visibility: visible;
+      transform: translateX(0);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+    }
+  }
+
+  .sidebar-overlay.open {
+    display: block;
+    opacity: 1;
+  }
+}

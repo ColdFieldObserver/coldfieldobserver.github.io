@@ -1,0 +1,94 @@
+/* ============================================================
+   Giscus 自定义主题 · 机甲蓝（浅色）
+   配色对齐站点 _base.scss 的浅色变量：
+     ink  #0c1d30 / panel #e0eaf8 / accent #1260cc
+   ============================================================ */
+:root {
+  color-scheme: light;
+  --color-canvas-default: #ffffff;
+  --color-canvas-overlay: #ffffff;
+  --color-canvas-inset: #f3f7fd;
+  --color-canvas-subtle: #e7eff9;
+  --color-border-default: #b7cbe4;
+  --color-border-muted: #cddcef;
+  --color-fg-default: #0c1d30;
+  --color-fg-muted: #45658a;
+  --color-fg-subtle: #6b86a8;
+  --color-accent-fg: #0d4699;
+  --color-accent-emphasis: #1260cc;
+  --color-accent-muted: rgba(18, 96, 204, 0.3);
+  --color-accent-subtle: #e2ecf9;
+  --color-btn-text: #24405e;
+  --color-btn-bg: #ffffff;
+  --color-btn-border: #b7cbe4;
+  --color-btn-hover-bg: #e7eff9;
+  --color-btn-hover-border: #1260cc;
+  --color-btn-primary-text: #ffffff;
+  --color-btn-primary-bg: #1260cc;
+  --color-btn-primary-border: #1260cc;
+  --color-btn-primary-hover-bg: #0d4699;
+  --color-btn-primary-hover-border: #0d4699;
+  --color-neutral-muted: rgba(127, 158, 194, 0.32);
+  --color-primer-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --color-primer-shadow-focus: 0 0 0 3px rgba(18, 96, 204, 0.22);
+  --color-social-reaction-bg-hover: #e7eff9;
+  --color-social-reaction-bg-reacted-hover: #d3e2f4;
+}
+
+body,
+.gsc-main {
+  color: #0c1d30;
+}
+
+/* 机甲风格：方形切角而非大圆角，并统一用等宽字体呈现「终端」感 */
+.gsc-comment-box-textarea,
+.gsc-comment-box-textarea textarea,
+.gsc-comment-box-textarea textarea:focus {
+  color: #0c1d30;
+  background: #f3f7fd;
+  border-color: #b7cbe4;
+  border-radius: 2px;
+}
+
+.gsc-comment-box-textarea textarea:focus {
+  border-color: #1260cc;
+  box-shadow: 0 0 0 3px rgba(18, 96, 204, 0.16);
+}
+
+.gsc-comment-box,
+.gsc-comment {
+  border-color: #b7cbe4;
+  border-radius: 3px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+}
+
+.gsc-comment-header {
+  background: #e7eff9;
+  border-color: #b7cbe4;
+  border-radius: 2px 2px 0 0;
+  border-left: 3px solid #1260cc;
+}
+
+.gsc-comment-content,
+.gsc-timeline {
+  color: #24405e;
+}
+
+.gsc-comment-content a,
+.gsc-header a,
+.gsc-footer a {
+  color: #0d4699;
+}
+
+.gsc-comment-content a:hover,
+.gsc-header a:hover,
+.gsc-footer a:hover {
+  color: #1260cc;
+}
+
+button:focus-visible,
+a:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #1260cc;
+  outline-offset: 2px;
+}

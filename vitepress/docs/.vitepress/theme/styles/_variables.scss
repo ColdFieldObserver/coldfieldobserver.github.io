@@ -1,0 +1,86 @@
+// ============================================================
+// 冷域观者 · 机甲主题 SCSS 设计变量
+//   视觉基调参考 CFO_Future/index.html：深邃太空蓝 + 机甲高光蓝
+//   所有主题色以 CSS 自定义属性承载（见 _base.scss），由
+//   <html data-theme="auto|light|dark"> 驱动深浅色切换。
+// ============================================================
+
+// ---- 字体 ----
+$font-ui: 'HarmonyOS Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', system-ui,
+  -apple-system, Roboto, sans-serif;
+// 等宽字体栈：末尾补中文无衬线 fallback，避免代码块内中文回退到系统宋体（SimSun）
+$font-mono: 'Cascadia Code', 'Consolas', 'Menlo', 'Microsoft YaHei UI', 'PingFang SC',
+  'HarmonyOS Sans SC', 'Microsoft YaHei', monospace;
+
+// ---- 主题色（引用 CSS 变量，随深浅色切换）----
+$accent: var(--accent);
+$accent-2: var(--accent-2);
+$accent-soft: var(--accent-soft);
+$accent-grad: var(--accent-grad);
+$ink: var(--ink);
+$ink-2: var(--ink-2);
+$ink-3: var(--ink-3);
+$bg: var(--bg);
+$bg-deep: var(--bg-deep);
+$panel: var(--panel);
+$card: var(--card);
+$line: var(--line);
+$edge: var(--edge);
+$sidebar-bg: var(--sidebar-bg);
+
+// ---- 静态品牌色（不随主题切换，用于渐变/光效等）----
+$accent-static: #2d8cff;
+$accent-deep-static: #1a5fa0;
+
+// ---- 机甲切角 ----
+// 统一在「右下角」切一个三角，模拟装甲板斜切
+$cut-s: 8px;
+$cut-m: 14px;
+$cut-l: 20px;
+
+@function mecha-clip($size: $cut-m) {
+  @return polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - #{$size}),
+    calc(100% - #{$size}) 100%,
+    0 100%
+  );
+}
+
+@function mecha-clip-dual($size: $cut-s) {
+  @return polygon(
+    0 0,
+    calc(100% - #{$size}) 0,
+    100% #{$size},
+    100% 100%,
+    #{$size} 100%,
+    0 calc(100% - #{$size})
+  );
+}
+
+// ---- 圆角（机甲风整体偏方正，仅小控件使用）----
+$radius-l: 4px;
+$radius-m: 3px;
+$radius-s: 2px;
+$radius-full: 999px;
+
+// ---- 阴影（机甲风以「外发光」代替柔和投影）----
+$shadow-card: 0 2px 0 rgba(45, 140, 255, 0.06), 0 8px 24px rgba(3, 10, 20, 0.32);
+$shadow-float: 0 12px 48px rgba(3, 10, 20, 0.5);
+$shadow-brand: 0 0 0 1px rgba(45, 140, 255, 0.35), 0 0 22px rgba(45, 140, 255, 0.22);
+
+// ---- 尺寸 ----
+$header-h: 64px;
+$sidebar-left-w: 250px;
+$sidebar-right-w: 296px;
+
+// ---- 断点 ----
+$bp-lg: 1280px;
+$bp-md: 1024px;
+$bp-sm: 768px;
+$bp-xs: 640px;
+$bp-2xs: 480px;
+
+// ---- 内容最大宽度 ----
+$max-w: 1180px;
