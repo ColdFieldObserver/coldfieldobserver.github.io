@@ -179,6 +179,10 @@
   .widget-list {
     display: flex;
     flex-direction: column;
+    // 该列表既可能落在 <div> 也可能落在 <ul> 上，统一抹平列表默认样式
+    margin: 0;
+    padding: 0;
+    list-style: none;
 
     a,
     li {

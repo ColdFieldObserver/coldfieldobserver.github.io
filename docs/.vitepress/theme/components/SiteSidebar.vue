@@ -78,7 +78,17 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <aside class="sidebar-left" :class="{ open: navOpen }" aria-label="主导航">
+  <!--
+    阅读模式排除：左栏是站点导航（页面外壳），显式声明 role="navigation"，
+    让阅读模式把它当导航 chrome 剔除，不会与正文争夺内容判定。
+  -->
+  <aside
+    class="sidebar-left"
+    :class="{ open: navOpen }"
+    role="navigation"
+    aria-label="主导航"
+    data-nosnippet
+  >
     <div class="side-block">
       <div class="side-title">装甲导航</div>
       <nav class="nav" aria-label="站点导航">

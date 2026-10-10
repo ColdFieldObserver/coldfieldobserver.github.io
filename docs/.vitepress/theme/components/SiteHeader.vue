@@ -13,7 +13,8 @@ const rightOpen = computed(() => activeMobileDrawer.value === 'right');
 </script>
 
 <template>
-  <header class="site-header">
+  <!-- 阅读模式排除：顶部为全站页眉，声明 role="banner" 让提取器按 chrome 剔除 -->
+  <header class="site-header" role="banner" data-nosnippet>
     <a class="brand" :href="withBase('/')" :aria-label="SITE.brand">
       <span class="brand-mark" aria-hidden="true">⬢</span>
       <span class="brand-text">{{ SITE.brand }}</span>

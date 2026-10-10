@@ -49,7 +49,8 @@ onMounted(() => {
 
     <div class="loader-bar" />
 
-    <p class="loader-sub">// COLD FIELD OBSERVER · SYSTEM BOOT</p>
+    <!-- 装饰性文案：对辅助技术隐藏，同时避免被正文提取实现当成页面文字抓取 -->
+    <p class="loader-sub" aria-hidden="true">// COLD FIELD OBSERVER · SYSTEM BOOT</p>
   </div>
 </template>
 

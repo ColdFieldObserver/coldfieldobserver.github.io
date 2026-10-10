@@ -20,7 +20,21 @@ const NOTICE = [
 </script>
 
 <template>
-  <aside id="sidebar-right" class="sidebar-right" :class="{ open: drawerOpen }" aria-label="侧边栏">
+  <!--
+    阅读模式排除：浏览器阅读模式（Firefox Readability / Edge 沉浸式阅读器 /
+    Chromium 系实现）普遍依据「语义标签 + ARIA 角色」判定正文范围。
+    本栏是辅助内容，除元素本身的 <aside> 隐式角色外，这里显式补上
+    role="complementary"（辅助性地标）与 data-nosnippet，
+    使其在任何提取实现下都不会被并入文章正文。
+  -->
+  <aside
+    id="sidebar-right"
+    class="sidebar-right"
+    :class="{ open: drawerOpen }"
+    role="complementary"
+    aria-label="侧边栏"
+    data-nosnippet
+  >
     <!-- 最新日志 -->
     <section class="widget">
       <h2 class="widget-title">最新日志</h2>
@@ -34,11 +48,13 @@ const NOTICE = [
     <!-- 个人档案（原项目右侧边栏） -->
     <section class="widget">
       <h2 class="widget-title">个人档案</h2>
-      <div class="widget-list profile">
+      <!-- 用 <ul> 承载：<li> 必须位于列表容器内，否则是非法嵌套，
+           部分正文提取实现会对游离的 <li> 做重排，进而把侧栏文本并进正文 -->
+      <ul class="widget-list profile">
         <li>兴趣爱好：打游戏、听音乐、看视频、户外散步、偶尔写点东西</li>
         <li>喜欢玩的游戏：逃跑吧少年、蛋仔派对、我的世界、植物大战僵尸2、保卫萝卜4、光遇</li>
         <li>主阵地：逃少音乐档案馆（B站 &amp; WP独立站）</li>
-      </div>
+      </ul>
     </section>
 
     <!-- 工具矩阵（原项目工具清单 + 新增工具） -->
