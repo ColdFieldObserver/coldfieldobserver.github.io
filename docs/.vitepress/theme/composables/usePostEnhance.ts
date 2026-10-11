@@ -5,8 +5,7 @@ import { prefersReducedMotion, revealPassed } from './useScrollReveal';
 // ============================================================
 // 文章页客户端增强
 //   1. [TOC] 目录：读取正文中已渲染的标题 id，生成可跳转目录
-//   2. 页内锚点滚动：目录 / 脚注 / 标题锚点跳转时滚动 .site-main
-//      （本站 body 设了 overflow:hidden，VitePress 内置的 window.scrollTo 无效）
+//   2. 页内锚点滚动：目录 / 脚注 / 标题锚点跳转时滚动对应的页面容器
 //   3. Mermaid 图表：把 mermaid 代码块交给 mermaid 渲染为 SVG
 //      （mermaid 体积大且含大量 chunk，改为运行时按需从 CDN 加载）
 //   4. 代码块复制按钮：VitePress 只输出 <button class="copy">，自定义主题需自行接管
@@ -92,13 +91,19 @@ function alignToAnchor(hash: string, smooth: boolean): boolean {
   }
   const target = document.getElementById(id);
   if (!target) return false;
-  const top =
-    target.getBoundingClientRect().top -
-    scroller.getBoundingClientRect().top +
-    scroller.scrollTop -
-    ANCHOR_OFFSET;
   const behavior = smooth && !prefersReducedMotion() ? 'smooth' : 'auto';
-  scroller.scrollTo({ top: Math.max(0, top), behavior });
+  if (window.matchMedia('(max-width: 1024px)').matches) {
+    const headerHeight = document.querySelector<HTMLElement>('.site-header')?.offsetHeight ?? 0;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - ANCHOR_OFFSET;
+    window.scrollTo({ top: Math.max(0, top), behavior });
+  } else {
+    const top =
+      target.getBoundingClientRect().top -
+      scroller.getBoundingClientRect().top +
+      scroller.scrollTop -
+      ANCHOR_OFFSET;
+    scroller.scrollTo({ top: Math.max(0, top), behavior });
+  }
   if (behavior === 'auto') revealPassed();
   return true;
 }

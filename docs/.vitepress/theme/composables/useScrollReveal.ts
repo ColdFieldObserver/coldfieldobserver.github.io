@@ -73,6 +73,14 @@ let pending: HTMLElement[] = [];
 let scrollBound = false;
 let safetyTimer: number | null = null;
 
+function usesDocumentScroll(): boolean {
+  return window.matchMedia('(max-width: 1024px)').matches;
+}
+
+function getViewportBottom(scroller: HTMLElement): number {
+  return usesDocumentScroll() ? window.innerHeight : scroller.getBoundingClientRect().bottom;
+}
+
 /**
  * 滚动兜底：瞬时锚点定位、浏览器滚动恢复等会「跳过」中间内容，
  * 这些块从未与视口相交，IntersectionObserver 不会回调，会一直停在
@@ -83,7 +91,8 @@ function bindScrollSafety(): void {
   const scroller = document.querySelector<HTMLElement>('.site-main');
   if (!scroller) return;
   scrollBound = true;
-  scroller.addEventListener(
+  const scrollTarget: HTMLElement | Window = usesDocumentScroll() ? window : scroller;
+  scrollTarget.addEventListener(
     'scroll',
     () => {
       if (safetyTimer !== null) return;
@@ -137,7 +146,7 @@ export function setupScrollReveal(): void {
   const blocks = collectBlocks();
   if (!blocks.length) return;
 
-  const viewportBottom = scroller.getBoundingClientRect().bottom;
+  const viewportBottom = getViewportBottom(scroller);
   const current = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -146,7 +155,7 @@ export function setupScrollReveal(): void {
         current.unobserve(entry.target);
       }
     },
-    { root: scroller, rootMargin: '0px 0px -8% 0px', threshold: 0 },
+    { root: usesDocumentScroll() ? null : scroller, rootMargin: '0px 0px -8% 0px', threshold: 0 },
   );
   observer = current;
 
@@ -166,7 +175,7 @@ export function revealPassed(): void {
   if (!pending.length) return;
   const scroller = document.querySelector<HTMLElement>('.site-main');
   if (!scroller) return;
-  const viewportBottom = scroller.getBoundingClientRect().bottom;
+  const viewportBottom = getViewportBottom(scroller);
   const rest: HTMLElement[] = [];
   for (const block of pending) {
     if (block.getBoundingClientRect().top < viewportBottom) {

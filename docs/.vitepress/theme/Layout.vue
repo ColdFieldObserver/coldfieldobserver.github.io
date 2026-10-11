@@ -45,7 +45,13 @@ const tagName = computed(() => decodeParam(params.value?.tag));
 function beforePageEnter(): void {
   if (typeof document === 'undefined') return;
   const scroller = document.querySelector<HTMLElement>('.site-main');
-  if (scroller && !window.location.hash) scroller.scrollTop = 0;
+  if (!window.location.hash) {
+    if (window.matchMedia('(max-width: 1024px)').matches) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    } else if (scroller) {
+      scroller.scrollTop = 0;
+    }
+  }
   // 触发一道横向扫描光（机甲风切页反馈）
   scroller?.classList.add('is-switching');
   window.setTimeout(() => scroller?.classList.remove('is-switching'), 600);

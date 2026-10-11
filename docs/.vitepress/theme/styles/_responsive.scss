@@ -37,7 +37,10 @@
 // 移动端抽屉展开时不出现横向滚动
 @include respond-below($bp-md) {
   body {
-    overflow-x: hidden;
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: auto;
   }
 
   // 抽屉展开：锁定背景滚动，视觉上聚焦抽屉
