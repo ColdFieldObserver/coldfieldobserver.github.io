@@ -1,4 +1,4 @@
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
 export type MobileDrawer = 'left' | 'right';
 
@@ -13,7 +13,7 @@ export function closeMobileDrawer(): void {
   activeMobileDrawer.value = null;
 }
 
-const EDGE_SWIPE_WIDTH = 24;
+const EDGE_SWIPE_WIDTH = 40;
 const SWIPE_THRESHOLD = 56;
 
 interface DrawerSwipeStart {
@@ -21,7 +21,10 @@ interface DrawerSwipeStart {
   x: number;
   y: number;
   drawer: MobileDrawer;
+  panel: HTMLElement;
   closing: boolean;
+  axis: 'pending' | 'horizontal' | 'vertical';
+  dragging: boolean;
 }
 
 export function useMobileDrawerGestures(): void {
@@ -39,6 +42,11 @@ export function useMobileDrawerGestures(): void {
     window.setTimeout(() => document.removeEventListener('click', preventClick, true), 0);
   };
 
+  const clearDrag = (panel: HTMLElement) => {
+    panel.classList.remove('is-dragging');
+    panel.style.removeProperty('transform');
+  };
+
   const onPointerDown = (event: PointerEvent) => {
     if (event.pointerType !== 'touch' || !event.isPrimary || !isMobile()) return;
 
@@ -46,12 +54,17 @@ export function useMobileDrawerGestures(): void {
     const target = event.target instanceof Element ? event.target : null;
     if (currentDrawer) {
       if (!target?.closest(`.sidebar-${currentDrawer}`)) return;
+      const panel = document.querySelector<HTMLElement>(`.sidebar-${currentDrawer}`);
+      if (!panel) return;
       swipeStart = {
         pointerId: event.pointerId,
         x: event.clientX,
         y: event.clientY,
         drawer: currentDrawer,
+        panel,
         closing: true,
+        axis: 'pending',
+        dragging: false,
       };
       return;
     }
@@ -63,13 +76,56 @@ export function useMobileDrawerGestures(): void {
           ? 'right'
           : null;
     if (!drawer) return;
+    const panel = document.querySelector<HTMLElement>(`.sidebar-${drawer}`);
+    if (!panel) return;
     swipeStart = {
       pointerId: event.pointerId,
       x: event.clientX,
       y: event.clientY,
       drawer,
+      panel,
       closing: false,
+      axis: 'pending',
+      dragging: false,
     };
+  };
+
+  const onPointerMove = (event: PointerEvent) => {
+    if (!swipeStart || event.pointerId !== swipeStart.pointerId) return;
+    const deltaX = event.clientX - swipeStart.x;
+    const deltaY = event.clientY - swipeStart.y;
+    if (swipeStart.axis === 'pending') {
+      if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < 8) return;
+      swipeStart.axis = Math.abs(deltaX) >= Math.abs(deltaY) * 1.25 ? 'horizontal' : 'vertical';
+    }
+    if (swipeStart.axis === 'vertical') return;
+
+    const width = swipeStart.panel.offsetWidth;
+    if (!width) return;
+    const directedDistance = swipeStart.closing
+      ? swipeStart.drawer === 'left' ? -deltaX : deltaX
+      : swipeStart.drawer === 'left' ? deltaX : -deltaX;
+    if (directedDistance <= 0) {
+      if (swipeStart.dragging) clearDrag(swipeStart.panel);
+      swipeStart.dragging = false;
+      return;
+    }
+
+    let offset: number;
+    if (swipeStart.closing) {
+      offset = swipeStart.drawer === 'left'
+        ? Math.max(-width, Math.min(0, deltaX))
+        : Math.min(width, Math.max(0, deltaX));
+    } else {
+      const progress = swipeStart.drawer === 'left'
+        ? Math.max(0, Math.min(width, deltaX))
+        : Math.max(0, Math.min(width, -deltaX));
+      offset = swipeStart.drawer === 'left' ? progress - width : width - progress;
+    }
+
+    swipeStart.panel.classList.add('is-dragging');
+    swipeStart.panel.style.transform = `translateX(${offset}px)`;
+    swipeStart.dragging = true;
   };
 
   const onPointerUp = (event: PointerEvent) => {
@@ -80,36 +136,41 @@ export function useMobileDrawerGestures(): void {
 
     const deltaX = event.clientX - start.x;
     const deltaY = event.clientY - start.y;
-    if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY) * 1.25) return;
+    const directedDistance = start.closing
+      ? start.drawer === 'left' ? -deltaX : deltaX
+      : start.drawer === 'left' ? deltaX : -deltaX;
+    const threshold = Math.max(SWIPE_THRESHOLD, start.panel.offsetWidth * 0.35);
+    const shouldComplete =
+      directedDistance >= threshold && Math.abs(deltaX) >= Math.abs(deltaY) * 1.25;
 
-    if (start.closing) {
-      const shouldClose = start.drawer === 'left' ? deltaX < 0 : deltaX > 0;
-      if (shouldClose && activeMobileDrawer.value === start.drawer) {
+    if (start.dragging && shouldComplete) {
+      if (start.closing && activeMobileDrawer.value === start.drawer) {
         closeMobileDrawer();
-        suppressClickAfterSwipe();
+      } else if (!start.closing && activeMobileDrawer.value === null) {
+        activeMobileDrawer.value = start.drawer;
       }
-      return;
-    }
-
-    const shouldOpen = start.drawer === 'left' ? deltaX > 0 : deltaX < 0;
-    if (shouldOpen && activeMobileDrawer.value === null) {
-      activeMobileDrawer.value = start.drawer;
+      void nextTick(() => clearDrag(start.panel));
       suppressClickAfterSwipe();
+    } else if (start.dragging) {
+      clearDrag(start.panel);
     }
   };
 
   const onPointerCancel = () => {
+    if (swipeStart?.dragging) clearDrag(swipeStart.panel);
     swipeStart = null;
   };
 
   onMounted(() => {
     document.addEventListener('pointerdown', onPointerDown, { passive: true });
+    document.addEventListener('pointermove', onPointerMove, { passive: true });
     document.addEventListener('pointerup', onPointerUp, { passive: true });
     document.addEventListener('pointercancel', onPointerCancel, { passive: true });
   });
 
   onBeforeUnmount(() => {
     document.removeEventListener('pointerdown', onPointerDown);
+    document.removeEventListener('pointermove', onPointerMove);
     document.removeEventListener('pointerup', onPointerUp);
     document.removeEventListener('pointercancel', onPointerCancel);
     swipeStart = null;
