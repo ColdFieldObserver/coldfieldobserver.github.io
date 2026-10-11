@@ -6,10 +6,12 @@ import {
   activeMobileDrawer,
   closeMobileDrawer,
   toggleMobileDrawer,
+  useMobileDrawerGestures,
 } from '@/composables/useMobileDrawer';
 
 const leftOpen = computed(() => activeMobileDrawer.value === 'left');
 const rightOpen = computed(() => activeMobileDrawer.value === 'right');
+useMobileDrawerGestures();
 </script>
 
 <template>

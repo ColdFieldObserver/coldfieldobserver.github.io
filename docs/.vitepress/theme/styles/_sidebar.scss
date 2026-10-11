@@ -64,6 +64,17 @@
     }
   }
 
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-left,
+  .sidebar-left.open,
+  .sidebar-right,
+  .sidebar-right.open,
+  .sidebar-overlay,
+  .sidebar-overlay.open {
+    transition: none;
+  }
+}
+
   .nav {
     display: flex;
     flex-direction: column;
@@ -327,23 +338,38 @@
   inset: 0;
   z-index: 99;
   background: var(--overlay);
-  backdrop-filter: blur(2px);
-  opacity: 0;
-  transition: opacity 0.28s ease;
 }
 
 @include respond-below($bp-md) {
+  .site-main,
+  .site-header,
+  .sidebar-left,
+  .sidebar-right,
+  .sidebar-overlay {
+    touch-action: pan-y;
+  }
+
   .drawer-btn {
     display: flex;
   }
 
   .sidebar-left {
+    visibility: hidden;
     transform: translateX(-100%);
-    box-shadow: $shadow-float;
-    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: none;
+    transition:
+      transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.28s ease,
+      visibility 0s linear 0.28s;
 
     &.open {
+      visibility: visible;
       transform: translateX(0);
+      box-shadow: $shadow-float;
+      transition:
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.28s ease,
+        visibility 0s;
     }
   }
 
@@ -353,18 +379,45 @@
     width: min($sidebar-right-w, calc(100vw - 44px));
     visibility: hidden;
     transform: translateX(100%);
-    box-shadow: $shadow-float;
-    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.28s;
+    box-shadow: none;
+    transition:
+      transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.28s ease,
+      visibility 0s linear 0.28s;
 
     &.open {
       visibility: visible;
       transform: translateX(0);
-      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+      box-shadow: $shadow-float;
+      transition:
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.28s ease,
+        visibility 0s;
     }
   }
 
-  .sidebar-overlay.open {
+  .sidebar-overlay {
     display: block;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
+    transition:
+      opacity 0.28s ease,
+      backdrop-filter 0.28s ease,
+      visibility 0s linear 0.28s;
+  }
+
+  .sidebar-overlay.open {
+    visibility: visible;
     opacity: 1;
+    pointer-events: auto;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    transition:
+      opacity 0.28s ease,
+      backdrop-filter 0.28s ease,
+      visibility 0s;
   }
 }
