@@ -77,6 +77,7 @@ function mountGiscus(): void {
     if (!frame || frame.dataset.bound === '1') return;
     frame.dataset.bound = '1';
     frame.addEventListener('load', () => {
+      syncGiscusTheme();
       loading.value = false;
       clearFallback();
     });
