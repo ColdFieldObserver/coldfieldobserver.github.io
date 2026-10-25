@@ -1,0 +1,126 @@
+/* ============================================================
+   冷域观者 · 设计令牌（Tailwind CSS v4 @theme）
+   ------------------------------------------------------------
+   规则一：颜色真值只存在于 base.css 的 :root（那里才有深色覆盖），
+           本文件只做 1:1 别名，别名里不写死颜色（静态品牌除外）。
+   规则二：圆角 / 阴影 / 断点 / 容器宽度只在这里定义一次。
+   规则三：必须用 @theme static —— 否则未被工具类引用的变量会被摇树删掉，
+           而大量普通 CSS 仍会 var(--radius-m) 直接引用。
+   ============================================================ */
+
+@theme static {
+  /* ---- 断点 ----
+     这里只是「有据可查的清单」；模板里一律手写 @media (max-width: Npx)，
+     因为 1024px 必须与 useMobileDrawer 的 matchMedia 完全一致。 */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  /* xl / 2xl 必须存在，否则依赖它们的规则会静默消失 */
+  --breakpoint-2xl: 1536px;
+
+  /* ---- 圆角（机甲风整体偏方正）----
+     清空后必须把 xs…3xl 补齐：Tailwind 自己的 rounded-* 工具类靠这些键，
+     缺一个就整条规则不存在（表现为元素变直角，且没有报错）。 */
+  --radius-*: initial;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-2xl: 12px;
+  --radius-3xl: 16px;
+  --radius-full: 999px;
+  /* 语义别名，与旧 SCSS 的 $radius-s/m/l 一一对应 */
+  --radius-s: 2px;
+  --radius-m: 3px;
+  --radius-l: 4px;
+
+  /* ---- 阴影：机甲风以「外发光」代替柔和投影 ---- */
+  --shadow-*: initial;
+  --shadow-card: 0 2px 0 rgba(45, 140, 255, 0.06), 0 8px 24px rgba(3, 10, 20, 0.32);
+  --shadow-float: 0 12px 48px rgba(3, 10, 20, 0.5);
+  --shadow-brand: 0 0 0 1px rgba(45, 140, 255, 0.35), 0 0 22px rgba(45, 140, 255, 0.22);
+
+  /* ---- 字体：只做别名（不能同名，否则自引用成环） ---- */
+  --font-sans: var(--font-ui);
+  --font-mono: var(--font-code);
+
+  /* ---- 容器宽度 → max-w-page ---- */
+  --container-page: 1180px;
+
+  /* ---- 颜色：清空默认调色板，只暴露站点语义色 ---- */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-static: #2d8cff;
+  --color-accent-deep: #1a5fa0;
+  --color-on-accent: var(--on-accent);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
+  --color-panel: var(--panel);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-edge: var(--edge);
+  --color-sidebar: var(--sidebar-bg);
+  --color-code: var(--code-bg);
+  --color-code-hd: var(--code-hd);
+}
+
+/* ============================================================
+   机甲切角
+   ------------------------------------------------------------
+   旧实现是 SCSS 函数 mecha-clip($size)，调用处传变量；改工具类后由
+   三个固定档位 + 双切替代。都在「右下角」切一个三角，模拟装甲板斜切。
+   ============================================================ */
+@utility mecha-clip-s {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+}
+
+@utility mecha-clip-m {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+}
+
+@utility mecha-clip-l {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+}
+
+/* 双向斜切（左上 + 右下）：小徽标用 */
+@utility mecha-clip-dual {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+}
+
+/* ============================================================
+   深色变体（模板里写 dark:xxx 时使用）
+   ------------------------------------------------------------
+   两路命中，与 base.css 的深色变量判定完全一致：
+     1) 手动 data-theme="dark"
+     2) auto + 系统深色
+   用 :where() 把特指度归零，胜负只由工具类排序决定。
+   ============================================================ */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *) {
+      @slot;
+    }
+  }
+}
