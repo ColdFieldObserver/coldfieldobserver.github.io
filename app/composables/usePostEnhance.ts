@@ -1,38 +1,17 @@
 import { nextTick } from 'vue';
-import { initTheme, onThemeChange, resolvedDark } from '~/composables/useTheme';
+import { initTheme } from '~/composables/useTheme';
 import { prefersReducedMotion, revealPassed } from '~/composables/useScrollReveal';
 
 // ============================================================
 // 文章页客户端增强
 //   1. [TOC] 目录：读取正文中已渲染的标题 id，生成可跳转目录
 //   2. 页内锚点滚动：目录 / 脚注 / 标题锚点跳转时滚动对应的页面容器
-//   3. Mermaid 图表：把 mermaid 代码块交给 mermaid 渲染为 SVG
-//      （mermaid 体积大且含大量 chunk，改为运行时按需从 CDN 加载）
-//   4. 代码块复制按钮：VitePress 只输出 <button class="copy">，自定义主题需自行接管
+//   3. 代码块的语言标签与复制按钮：由 components/content/ProsePre.vue 自己负责
+//      （不再在这里用 VitePress 时代的 button.copy 选择器去猜 DOM）
+// Mermaid 渲染已按参考站的做法移除：图表改用静态图片或外链，
+// 避免整包 mermaid（数百 KB）在客户端从 CDN 加载。
 // 以上均依赖渲染后的真实 DOM，只能运行在浏览器端，且都是渐进增强。
 // ============================================================
-
-// ---- 代码块复制（全站只注册一次） ----
-let copyBound = false;
-
-function bindCopyButtons(): void {
-  if (copyBound || typeof document === 'undefined') return;
-  copyBound = true;
-  document.addEventListener('click', async (event) => {
-    const target = event.target as HTMLElement | null;
-    const button = target?.closest<HTMLButtonElement>('button.copy');
-    if (!button) return;
-    const code = button.closest('div[class*="language-"]')?.querySelector('pre code');
-    if (!code) return;
-    try {
-      await navigator.clipboard.writeText(code.textContent ?? '');
-      button.classList.add('copied');
-      window.setTimeout(() => button.classList.remove('copied'), 1600);
-    } catch {
-      // 剪贴板不可用（非安全上下文 / 无权限）时静默降级
-    }
-  });
-}
 
 // ---- [TOC] 目录 ----
 function fillToc(): void {
@@ -179,151 +158,24 @@ function bindAnchorScroll(): void {
   });
 }
 
-// ---- Mermaid 图表 ----
-interface MermaidEntry {
-  el: HTMLElement;
-  source: string;
-}
-
-let entries: MermaidEntry[] = [];
-let drawnTheme: string | null = null;
+// ---- 文章入口 ----
 let lastRoute = '';
-let themeBound = false;
-
-function currentTheme(): string {
-  return resolvedDark.value ? 'dark' : 'neutral';
-}
-
-function collectMermaid(): boolean {
-  if (entries.length) return true;
-  const blocks = Array.from(
-    document.querySelectorAll<HTMLElement>('.post-content div.language-mermaid'),
-  );
-  entries = blocks.map((block) => {
-    const source = block.querySelector('code')?.textContent ?? '';
-    const holder = document.createElement('div');
-    holder.className = 'mermaid-holder';
-    const pre = document.createElement('pre');
-    pre.className = 'mermaid';
-    pre.textContent = source;
-    holder.appendChild(pre);
-    block.replaceWith(holder);
-    return { el: pre, source };
-  });
-  return entries.length > 0;
-}
-
-function restoreMermaid(): void {
-  for (const entry of entries) {
-    entry.el.parentElement?.classList.remove('mermaid-rendered');
-    const pre = document.createElement('pre');
-    pre.className = 'mermaid';
-    pre.textContent = entry.source;
-    entry.el.replaceWith(pre);
-    entry.el = pre;
-  }
-}
-
-const MERMAID_VERSION = '12.1.0';
-const MERMAID_CDNS = [
-  `https://cdn.jsdelivr.net/npm/mermaid@${MERMAID_VERSION}/dist/mermaid.min.js`,
-  `https://unpkg.com/mermaid@${MERMAID_VERSION}/dist/mermaid.min.js`,
-];
-
-interface MermaidApi {
-  initialize(config: Record<string, unknown>): void;
-  run(options: { nodes: HTMLElement[] }): Promise<void>;
-}
-
-let mermaidPromise: Promise<MermaidApi> | null = null;
-
-function loadScript(src: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = src;
-    script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => {
-      script.remove();
-      reject(new Error(`Failed to load script: ${src}`));
-    };
-    document.head.appendChild(script);
-  });
-}
-
-async function loadMermaid(): Promise<MermaidApi> {
-  if (mermaidPromise) return mermaidPromise;
-  mermaidPromise = (async () => {
-    const injected = (window as unknown as { mermaid?: MermaidApi }).mermaid;
-    if (injected) return injected;
-    let lastError: unknown;
-    for (const src of MERMAID_CDNS) {
-      try {
-        await loadScript(src);
-        const api = (window as unknown as { mermaid?: MermaidApi }).mermaid;
-        if (api) return api;
-      } catch (error) {
-        lastError = error;
-      }
-    }
-    throw lastError ?? new Error('Mermaid CDN unavailable');
-  })();
-  mermaidPromise.catch(() => {
-    mermaidPromise = null;
-  });
-  return mermaidPromise;
-}
-
-async function renderMermaid(): Promise<void> {
-  if (!collectMermaid()) return;
-  const theme = currentTheme();
-  if (drawnTheme === theme) return;
-
-  restoreMermaid();
-  try {
-    const mermaid = await loadMermaid();
-    mermaid.initialize({
-      startOnLoad: false,
-      securityLevel: 'loose',
-      theme,
-      fontFamily: 'inherit',
-    });
-    await mermaid.run({ nodes: entries.map((entry) => entry.el) });
-    for (const entry of entries) entry.el.parentElement?.classList.add('mermaid-rendered');
-    drawnTheme = theme;
-  } catch {
-    // 渲染失败时保留源码文本，不影响阅读
-  }
-}
-
-function bindThemeListener(): void {
-  if (themeBound || typeof window === 'undefined') return;
-  themeBound = true;
-  onThemeChange(() => void renderMermaid());
-}
-
-function reset(): void {
-  entries = [];
-  drawnTheme = null;
-}
 
 /**
  * 文章页挂载 / 路由切换后调用。
- * @param routeKey 当前文章标识（如 page.relativePath），变化时重置内部缓存
+ *
+ * 只做三件事：填目录、绑定锚点滚动、按 hash 精确对齐。
+ * 代码块的语言标签与复制按钮由 components/content/ProsePre.vue 自行负责，
+ * Mermaid 渲染按参考站的做法已移除（图表改用静态图片或外链）。
+ *
+ * @param routeKey 当前文章标识（如 /posts/<slug>），变化时重置内部缓存
  */
 export async function enhancePost(routeKey: string): Promise<void> {
   if (typeof document === 'undefined') return;
   initTheme();
-  bindCopyButtons();
   bindAnchorScroll();
-  bindThemeListener();
-  if (routeKey !== lastRoute) {
-    reset();
-    lastRoute = routeKey;
-  }
+  lastRoute = routeKey;
   await nextTick();
   fillToc();
-  scrollToAnchor(window.location.hash, false);
-  await renderMermaid();
   scrollToAnchor(window.location.hash, false);
 }

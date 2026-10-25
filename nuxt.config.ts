@@ -138,7 +138,9 @@ export default defineNuxtConfig({
       icons: [
         'lucide:arrow-right',
         'lucide:arrow-up',
+        'lucide:check',
         'lucide:chevron-right',
+        'lucide:copy',
         'lucide:folder',
         'lucide:hash',
         'lucide:house',

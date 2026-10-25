@@ -165,12 +165,9 @@
     overflow-x: auto;
     background: var(--code-bg);
     border: 1px solid var(--line);
-    transition: box-shadow 0.26s var(--ease-inout);
   }
 
-  .post-content pre:hover {
-    box-shadow: 0 10px 30px -18px rgb(0 0 0 / 0.25);
-  }
+  /* 代码块不再有任何 hover 阴影/位移：交互反馈只在复制按钮上 */
 
   .post-content pre code {
     padding: 0;
