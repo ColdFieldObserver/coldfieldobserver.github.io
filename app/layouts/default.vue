@@ -42,4 +42,5 @@ onBeforeUnmount(() => {
   </main>
 
   <SiteRightBar />
+  <SearchDialog />
 </template>

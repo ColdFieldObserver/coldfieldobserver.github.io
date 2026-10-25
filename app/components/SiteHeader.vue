@@ -20,7 +20,7 @@ useMobileDrawerGestures();
     role="banner"
     data-nosnippet
   >
-    <NuxtLink class="flex min-w-0 items-center gap-2.5" :to="/" :aria-label="SITE.brand">
+    <NuxtLink class="flex min-w-0 items-center gap-2.5" to="/" :aria-label="SITE.brand">
       <span class="brand-mark grid size-[30px] flex-none place-items-center text-[15px] text-on-accent" aria-hidden="true">
         ⬢
       </span>
