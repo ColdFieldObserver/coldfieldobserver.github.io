@@ -90,12 +90,18 @@ async function copy(): Promise<void> {
 <style scoped>
 .code-block {
   margin: 1.2em 0;
-  overflow: hidden;
+  /* 不能用 overflow: hidden —— 它会让 .code-block 成为滚动容器，
+     内部的 sticky 头栏就被困在盒子自己的滚动坐标系里，永远贴不住视口 */
   background: var(--code-bg);
   border: 1px solid var(--line);
 }
 
 .code-head {
+  /* 长代码块滚动时头栏钉在滚动容器（.site-main）顶部，
+     语言与复制按钮始终可点；横向滚动的是内部 <pre>，头栏不受影响 */
+  position: sticky;
+  top: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
