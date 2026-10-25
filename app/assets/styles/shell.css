@@ -68,6 +68,11 @@
   inset: 0;
   z-index: 99;
   background: var(--overlay);
+  /* 透明度与模糊都跟随拖拽进度（--drawer-progress 0→1），
+     拖动过程中遮罩是「跟着手势渐显/渐隐」，不是松开才突然出现 */
+  opacity: calc(var(--drawer-progress, 0));
+  backdrop-filter: blur(calc(2px * var(--drawer-progress, 0)));
+  pointer-events: none;
 }
 
 @media (max-width: 1024px) {
@@ -136,9 +141,6 @@
   .sidebar-overlay {
     display: block;
     visibility: hidden;
-    opacity: 0;
-    pointer-events: none;
-    backdrop-filter: blur(0);
     transition:
       opacity 0.28s ease,
       backdrop-filter 0.28s ease,
@@ -147,13 +149,23 @@
 
   .sidebar-overlay.open {
     visibility: visible;
-    opacity: 1;
     pointer-events: auto;
-    backdrop-filter: blur(2px);
     transition:
       opacity 0.28s ease,
       backdrop-filter 0.28s ease,
       visibility 0s;
+  }
+
+  /* 拖动中：遮罩立即显形，且禁用过渡 —— 否则透明度会滞后于手指 */
+  body.drawer-dragging .sidebar-overlay {
+    visibility: visible;
+    transition: none;
+  }
+
+  /* 关闭态拖动时 .open 仍然存在，这里让进度重新说了算 */
+  body.drawer-dragging .sidebar-overlay.open {
+    opacity: calc(var(--drawer-progress, 0));
+    backdrop-filter: blur(calc(2px * var(--drawer-progress, 0)));
   }
 
   @media (prefers-reduced-motion: reduce) {

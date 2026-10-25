@@ -2,15 +2,8 @@
 import { SITE } from '#shared/site';
 // ============================================================
 // 首页：内容与原站保持一致
-//   驾驶舱概览（档案概要）→ 站点模块 → 蛋仔派对 ID → 关于这个站点
+//   驾驶舱概览 → 站点模块 → 蛋仔派对 ID → 关于这个站点
 // ============================================================
-
-const PROFILE = [
-  { label: '兴趣爱好', value: '打游戏、听音乐、看视频、户外散步、偶尔写点东西' },
-  { label: '常玩游戏', value: '逃跑吧少年、蛋仔派对、我的世界、植物大战僵尸2、保卫萝卜4、光遇' },
-  { label: '主阵地', value: '逃少音乐档案馆（B站 & WP独立站）' },
-  { label: '技术栈', value: 'C、C++、C#、Python、HTML、CSS、JavaScript' },
-];
 
 const EGGY_IDS = [
   { file: 'eggypartyid.jpg', name: '实况主灯塔', note: '大号' },
@@ -29,7 +22,7 @@ useHead({ title: SITE.title });
 <template>
   <div class="mx-auto max-w-page">
     <!-- 驾驶舱概览 -->
-    <section class="mb-8 grid gap-5 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
+    <section class="mb-8 grid gap-5">
       <div class="mecha-clip-l relative border border-line bg-panel px-7 py-8">
         <p class="font-mono text-[11.5px] tracking-[2px] text-accent-2">
           // COLDFIELD OBSERVER · PERSONAL TERMINAL
@@ -58,19 +51,6 @@ useHead({ title: SITE.title });
         </div>
       </div>
 
-      <aside class="mecha-clip-m border border-line bg-card px-5 py-5">
-        <div
-          class="mb-3 flex items-center gap-2 border-b border-line pb-2 font-mono text-[11.5px] font-bold tracking-[2px] text-accent-2 uppercase before:size-1.5 before:rotate-45 before:bg-accent before:content-['']"
-        >
-          档案概要
-        </div>
-        <dl class="m-0 grid grid-cols-[auto_1fr] gap-x-3 gap-y-2.5">
-          <template v-for="item in PROFILE" :key="item.label">
-            <dt class="font-mono text-[12px] whitespace-nowrap text-ink-3">{{ item.label }}</dt>
-            <dd class="m-0 text-[13px] leading-[1.6] text-ink-2">{{ item.value }}</dd>
-          </template>
-        </dl>
-      </aside>
     </section>
 
     <!-- 站点模块 -->

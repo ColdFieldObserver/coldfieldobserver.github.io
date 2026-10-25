@@ -68,6 +68,7 @@ export const FRIEND_LINKS: FriendLink[] = [
 export interface Announcement {
     /** 公告日期 */
     date: string;
+    /** 公告内容 */
     content: string;
 }
 

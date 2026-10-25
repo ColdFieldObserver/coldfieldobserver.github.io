@@ -5,12 +5,39 @@ export type MobileDrawer = 'left' | 'right';
 /** 当前打开的抽屉（移动端），null 表示都关闭 */
 export const activeMobileDrawer = ref<MobileDrawer | null>(null);
 
+/**
+ * 抽屉的实时展开进度 0→1（对齐参考站的做法）。
+ * 拖动过程中遮罩的透明度、模糊与面板阴影都跟着它线性变化 ——
+ * 而不是等手指松开才「啪」地出现/消失。
+ * 写入 <html> 的自定义属性，CSS 里用 var(--drawer-progress) 取值。
+ */
+export const drawerProgress = ref(0);
+
+function setProgress(value: number): void {
+  const next = Math.max(0, Math.min(1, value));
+  drawerProgress.value = next;
+  if (typeof document !== 'undefined') {
+    document.documentElement.style.setProperty('--drawer-progress', String(next));
+  }
+}
+
+setProgress(0);
+
+/** 拖动期间给 body 加标记：遮罩立即显形并暂时禁用过渡 */
+function setDragging(active: boolean): void {
+  if (typeof document === 'undefined') return;
+  document.body.classList.toggle('drawer-dragging', active);
+}
+
 export function toggleMobileDrawer(drawer: MobileDrawer): void {
-  activeMobileDrawer.value = activeMobileDrawer.value === drawer ? null : drawer;
+  const open = activeMobileDrawer.value === drawer;
+  activeMobileDrawer.value = open ? null : drawer;
+  setProgress(open ? 0 : 1);
 }
 
 export function closeMobileDrawer(): void {
   activeMobileDrawer.value = null;
+  setProgress(0);
 }
 
 const EDGE_SWIPE_WIDTH = 40;
@@ -125,7 +152,12 @@ export function useMobileDrawerGestures(): void {
 
     swipeStart.panel.classList.add('is-dragging');
     swipeStart.panel.style.transform = `translateX(${offset}px)`;
+    if (!swipeStart.dragging) setDragging(true);
     swipeStart.dragging = true;
+
+    // 展开进度：关闭态从 1 递减，打开态从 0 递增
+    const ratio = Math.min(1, directedDistance / width);
+    setProgress(swipeStart.closing ? 1 - ratio : ratio);
   };
 
   const onPointerUp = (event: PointerEvent) => {
@@ -143,21 +175,27 @@ export function useMobileDrawerGestures(): void {
     const shouldComplete =
       directedDistance >= threshold && Math.abs(deltaX) >= Math.abs(deltaY) * 1.25;
 
+    setDragging(false);
+
     if (start.dragging && shouldComplete) {
       if (start.closing && activeMobileDrawer.value === start.drawer) {
         closeMobileDrawer();
       } else if (!start.closing && activeMobileDrawer.value === null) {
         activeMobileDrawer.value = start.drawer;
+        setProgress(1);
       }
       void nextTick(() => clearDrag(start.panel));
       suppressClickAfterSwipe();
     } else if (start.dragging) {
       clearDrag(start.panel);
+      // 没达到阈值：回到拖动前的状态
+      setProgress(start.closing ? 1 : 0);
     }
   };
 
   const onPointerCancel = () => {
     if (swipeStart?.dragging) clearDrag(swipeStart.panel);
+    setDragging(false);
     swipeStart = null;
   };
 
