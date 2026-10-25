@@ -1,0 +1,13 @@
+/* ============================================================
+   冷域观者的个人网站 · 全局样式入口
+   ------------------------------------------------------------
+   硬性顺序：
+   1) 所有 @import 必须置顶（CSS 规范）；Tailwind 的两条必须排在项目文件之前。
+   2) 不引入 Preflight（tailwindcss/preflight.css）：保留 base.css 里项目自己的
+      重置，避免 h1-h6 字号、button / input 默认样式、border-color 默认值变化。
+   3) 本文件不出现任何非 @import 语句：@theme / @custom-variant 都在 tokens.css。
+   ============================================================ */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
