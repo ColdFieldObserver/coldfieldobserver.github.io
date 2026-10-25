@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
+import { buildRoutes } from './build/post-index';
 
 // ============================================================
 // 冷域观者的个人网站 · Nuxt 站点配置
@@ -100,7 +101,26 @@ export default defineNuxtConfig({
     clientBundle: {
       scan: true,
       sizeLimitKb: 256,
-      icons: [],
+      icons: [
+        'lucide:arrow-right',
+        'lucide:chevron-right',
+        'lucide:folder',
+        'lucide:hash',
+        'lucide:house',
+        'lucide:info',
+        'lucide:menu',
+        'lucide:monitor',
+        'lucide:moon',
+        'lucide:newspaper',
+        'lucide:panel-right',
+        'lucide:rss',
+        'lucide:search',
+        'lucide:sun',
+        'lucide:wrench',
+        'lucide:x',
+        'simple-icons:bilibili',
+        'simple-icons:github',
+      ],
     },
   },
 
@@ -119,6 +139,13 @@ export default defineNuxtConfig({
       failOnError: true,
       // /about → about.html（无尾斜杠、无子目录 index）
       autoSubfolderIndex: false,
+    },
+  },
+
+  // 唯一的路由枚举入口：build/post-index.ts 在构建期读 frontmatter
+  hooks: {
+    'prerender:routes'(ctx) {
+      for (const route of buildRoutes()) ctx.routes.add(route);
     },
   },
 

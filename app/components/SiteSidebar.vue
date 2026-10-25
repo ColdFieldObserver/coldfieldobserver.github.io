@@ -41,6 +41,8 @@ const activeKey = computed(() => {
 });
 
 const navOpen = computed(() => activeMobileDrawer.value === 'left');
+/** 订阅源地址（补 baseURL） */
+const atomHref = withBase('/atom.xml');
 let mobileBreakpoint: MediaQueryList | undefined;
 
 function onKeydown(event: KeyboardEvent): void {
@@ -119,7 +121,7 @@ onBeforeUnmount(() => {
           <a
             v-if="item.external"
             class="flex items-center gap-2.5 border-l-[3px] border-transparent px-2.5 py-1.5 text-[13.5px] text-ink-2 transition-colors hover:border-l-edge hover:bg-accent-soft hover:text-ink"
-            :href="withBase(item.href)"
+            :href="atomHref"
             target="_blank"
             rel="alternate noopener"
           >
