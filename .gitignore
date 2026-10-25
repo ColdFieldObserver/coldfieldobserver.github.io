@@ -1,13 +1,22 @@
 node_modules
 dist
 dist-*
-docs/.vitepress/dist
-docs/.vitepress/cache
 .DS_Store
 *.local
 *.log
 .vs/
 .vscode/
+
+# Nuxt 构建产物与缓存
+.nuxt/
+.output/
+.data/
+.nitro/
+.cache/
+
+# VitePress 时期产物（旧实现保留到清理提交）
+docs/.vitepress/dist
+docs/.vitepress/cache
 
 # Temporary files
 **/*.timestamp-*.mjs
