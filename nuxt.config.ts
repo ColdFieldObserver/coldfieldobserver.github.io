@@ -19,6 +19,8 @@ export default defineNuxtConfig({
     baseURL: '/',
     head: {
       htmlAttrs: { lang: 'zh-CN' },
+      // 默认标题：页面各自 useHead 覆盖，error.vue / 404 等没有设标题时兜底
+      title: '冷域观者的个人网站',
       meta: [
         { name: 'author', content: 'ColdFieldObserver' },
         {

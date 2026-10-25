@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { SITE } from '#shared/site';
 // ============================================================
 // 首页：内容与原站保持一致
 //   驾驶舱概览（档案概要）→ 站点模块 → 蛋仔派对 ID → 关于这个站点
@@ -22,7 +23,7 @@ const MODULES = [
   { label: 'RSS 订阅', desc: '用阅读器跟踪更新', to: '/atom.xml', code: 'FEED' },
 ];
 
-useHead({ title: '首页' });
+useHead({ title: SITE.title });
 </script>
 
 <template>
