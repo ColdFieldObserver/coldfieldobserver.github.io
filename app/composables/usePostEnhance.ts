@@ -75,6 +75,8 @@ const ANCHOR_OFFSET = 24;
 const SETTLE_WINDOW = 2000;
 
 let anchorBound = false;
+/** 自建 hash 跳转后的一小段时间内忽略 hashchange，避免重复滚动 */
+let suppressHashChangeUntil = 0;
 let settleObserver: ResizeObserver | null = null;
 let settleHash = '';
 let settleDeadline = 0;
@@ -143,13 +145,38 @@ function scrollToAnchor(hash: string, smooth = true): void {
 function bindAnchorScroll(): void {
   if (anchorBound || typeof window === 'undefined') return;
   anchorBound = true;
-  document.addEventListener('click', (event) => {
+
+  document.addEventListener('click', (event: MouseEvent) => {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const target = event.target as HTMLElement | null;
     const link = target?.closest<HTMLAnchorElement>('a[href^="#"]');
     if (!link) return;
-    scrollToAnchor(link.getAttribute('href') ?? '');
+    const hash = link.getAttribute('href') ?? '';
+    if (!hash || hash === '#') return;
+
+    // 关键：先阻止浏览器的默认 hash 跳转。
+    // 默认跳转会把 .site-main 直接滚到元素顶部（不带头部偏移），
+    // 紧接着我们的 alignToAnchor 再按 24px 偏移滚一次，
+    // 两次滚动叠加就会让正文容器整体偏掉一截。
+    event.preventDefault();
+
+    // 用 replaceState 写 hash：不触发 hashchange，避免第二次重复滚动
+    suppressHashChangeUntil = performance.now() + 150;
+    try {
+      history.replaceState(null, '', hash);
+    } catch {
+      // 忽略：history API 不可用时仍继续手动滚动
+    }
+    scrollToAnchor(hash);
   });
-  window.addEventListener('hashchange', () => scrollToAnchor(window.location.hash));
+
+  window.addEventListener('hashchange', () => {
+    // 上面 replaceState 之后浏览器不会再派发 hashchange；
+    // 这里只处理外部直接改地址栏 / 手动点击原生锚点的情况
+    if (performance.now() < suppressHashChangeUntil) return;
+    scrollToAnchor(window.location.hash);
+  });
 }
 
 // ---- Mermaid 图表 ----
