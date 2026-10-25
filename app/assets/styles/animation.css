@@ -78,6 +78,43 @@
   }
 }
 
+/* ---- 内容入场：.site-main 前 8 个直接子块错峰上浮 ----
+   用 backwards 而不是 both：动画结束后不保留 transform，
+   否则首层子元素会永久成为 fixed 后代的包含块。 */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-main > :nth-child(-n + 8) {
+    animation: rise-in 0.6s var(--ease-out-soft) backwards;
+  }
+
+  .site-main > :nth-child(1) {
+    animation-delay: 30ms;
+  }
+
+  .site-main > :nth-child(2) {
+    animation-delay: 95ms;
+  }
+
+  .site-main > :nth-child(3) {
+    animation-delay: 160ms;
+  }
+
+  .site-main > :nth-child(4) {
+    animation-delay: 225ms;
+  }
+}
+
 /* ---- 滚动淡入 ----
    只在 JS 就绪（html.js）时隐藏：脚本不跑时内容必须永远可见，
    这是「无 JS 白屏」的防线之一。 */

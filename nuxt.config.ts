@@ -103,6 +103,7 @@ export default defineNuxtConfig({
       sizeLimitKb: 256,
       icons: [
         'lucide:arrow-right',
+        'lucide:arrow-up',
         'lucide:chevron-right',
         'lucide:folder',
         'lucide:hash',

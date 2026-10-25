@@ -8,6 +8,18 @@ import { initTheme } from '~/composables/useTheme';
 //   异步 setup 会让客户端 hydration 一直挂起（表现为页面卡死）。
 // ============================================================
 const nuxtApp = useNuxtApp();
+const {
+  progress,
+  active: progressActive,
+  done: progressDone,
+  completeRendering,
+  start: startProgress,
+  markPageLoaded,
+} = usePageProgress();
+
+// 站内跳转的真实加载进度（首屏由 MechaLoader 负责，二者不重叠）
+const offLoadingStart = nuxtApp.hook('page:loading:start', () => startProgress(false));
+const offLoadingEnd = nuxtApp.hook('page:loading:end', () => markPageLoaded());
 
 /** 切页时复位唯一滚动容器（带锚点的跳转交给页内锚点逻辑） */
 function resetScroller(): void {
@@ -16,22 +28,30 @@ function resetScroller(): void {
   document.querySelector<HTMLElement>('.site-main')?.scrollTo({ top: 0, behavior: 'auto' });
 }
 
-const offPageFinish = nuxtApp.hook('page:finish', () => setupScrollReveal());
+const offPageFinish = nuxtApp.hook('page:finish', () => {
+  setupScrollReveal();
+  completeRendering();
+});
 const offTransitionFinish = nuxtApp.hook('page:transition:finish', resetScroller);
 
 onMounted(() => {
   initTheme();
   resetScroller();
   setupScrollReveal();
+  completeRendering();
 });
 
 onBeforeUnmount(() => {
   offPageFinish();
   offTransitionFinish();
+  offLoadingStart();
+  offLoadingEnd();
 });
 </script>
 
 <template>
+  <PageProgress :progress="progress" :active="progressActive" :done="progressDone" />
+  <ReadingProgress />
   <MechaLoader />
   <SiteHeader />
   <SiteSidebar />
@@ -42,5 +62,6 @@ onBeforeUnmount(() => {
   </main>
 
   <SiteRightBar />
+  <BackToTop />
   <SearchDialog />
 </template>
