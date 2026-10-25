@@ -1,94 +1,140 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { SITE, TOOL_LINKS } from '#shared/site';
-import { latestPosts, useAllPosts } from '~/composables/usePosts';
+// ============================================================
+// 首页：内容与原站保持一致
+//   驾驶舱概览（档案概要）→ 站点模块 → 蛋仔派对 ID → 关于这个站点
+// ============================================================
 
-const all = useAllPosts();
-const posts = computed(() => latestPosts(all.value, 3));
+const PROFILE = [
+  { label: '兴趣爱好', value: '打游戏、听音乐、看视频、户外散步、偶尔写点东西' },
+  { label: '常玩游戏', value: '逃跑吧少年、蛋仔派对、我的世界、植物大战僵尸2、保卫萝卜4、光遇' },
+  { label: '主阵地', value: '逃少音乐档案馆（B站 & WP独立站）' },
+  { label: '技术栈', value: 'C、C++、C#、Python、HTML、CSS、JavaScript' },
+];
+
+const EGGY_IDS = [
+  { file: 'eggypartyid.jpg', name: '实况主灯塔', note: '大号' },
+  { file: 'eggypartyid2.jpg', name: '翌测', note: '小号' },
+];
 
 const MODULES = [
-  { to: '/posts/', title: '博客日志', desc: '站点更新、技术笔记与折腾记录。', icon: 'i-lucide-newspaper' },
-  { to: '/tools/', title: '在线工具', desc: 'Base64 / Unicode / 时间戳 / URL 等小工具。', icon: 'i-lucide-wrench' },
-  { to: '/about', title: '关于本站', desc: '站点说明、版权与开源协议。', icon: 'i-lucide-info' },
-] as const;
+  { label: '日志终端', desc: '按时间归档的全部记录', to: '/archives/', code: 'ARCHIVE' },
+  { label: '工具矩阵', desc: 'Base64 / Unicode / 时间戳 / URL', to: '/tools/', code: 'TOOLS' },
+  { label: 'RSS 订阅', desc: '用阅读器跟踪更新', to: '/atom.xml', code: 'FEED' },
+];
 
 useHead({ title: '首页' });
 </script>
 
 <template>
   <div class="mx-auto max-w-page">
-    <!-- 驾驶舱 Hero -->
-    <section
-      class="mecha-clip-l relative mb-8 overflow-hidden border border-line bg-panel px-7 py-9"
-    >
-      <p class="font-mono text-[11.5px] tracking-[2px] text-accent-2">{{ SITE.codename }}</p>
-      <h1 class="mt-3 text-[clamp(28px,5vw,42px)] leading-[1.2] font-extrabold tracking-[2px] text-ink">
-        {{ SITE.brand }}
-      </h1>
-      <p class="mt-3 max-w-[62ch] text-[14.5px] leading-[1.8] text-ink-2">
-        个人网站 · 机甲重构版：博客日志、在线工具与资源导航，支持 RSS 订阅与全站检索。
-      </p>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <NuxtLink class="mecha-clip-s border border-accent bg-accent px-5 py-2 text-[14px] font-semibold text-on-accent transition-[filter] hover:brightness-110" to="/posts/">
-          进入博客
-        </NuxtLink>
-        <NuxtLink class="mecha-btn" to="/tools/">打开工具箱</NuxtLink>
+    <!-- 驾驶舱概览 -->
+    <section class="mb-8 grid gap-5 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
+      <div class="mecha-clip-l relative border border-line bg-panel px-7 py-8">
+        <p class="font-mono text-[11.5px] tracking-[2px] text-accent-2">
+          // COLDFIELD OBSERVER · PERSONAL TERMINAL
+        </p>
+        <h1
+          class="mt-3 text-[clamp(26px,4.5vw,38px)] leading-[1.25] font-extrabold tracking-[1px] text-ink"
+        >
+          欢迎来到冷域观者的个人网站！
+        </h1>
+        <div class="mt-4 flex flex-col gap-3 text-[14.5px] leading-[1.85] text-ink-2">
+          <p>
+            我是冷域观者，一个逃跑吧少年和蛋仔派对玩家，偶尔也玩我的世界、PVZ2
+            和保卫萝卜4，同时还是逃少音乐档案馆的主理人。
+          </p>
+          <p>
+            曾用名 AsyncObserver、蛋仔派对远航蛋、主唱耀星_Eggy、UNI-航行的灯塔、TP-RLX-LIGHT
+            等，喜欢数码和技术。我也接触过编程，C、C++、C#、Python、HTML、CSS、JavaScript
+            都懂一点，有时候也会试着用别的语言重构几个易语言项目玩玩（易语言的缺点你们懂的）。
+          </p>
+          <p>这里是我的个人网站。当然我不在这里发博文，就提供一些工具和资源导航。</p>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <NuxtLink class="mecha-btn primary" to="/posts/">进入日志终端</NuxtLink>
+          <NuxtLink class="mecha-btn" to="/tools/">打开工具矩阵</NuxtLink>
+        </div>
       </div>
+
+      <aside class="mecha-clip-m border border-line bg-card px-5 py-5">
+        <div
+          class="mb-3 flex items-center gap-2 border-b border-line pb-2 font-mono text-[11.5px] font-bold tracking-[2px] text-accent-2 uppercase before:size-1.5 before:rotate-45 before:bg-accent before:content-['']"
+        >
+          档案概要
+        </div>
+        <dl class="m-0 grid grid-cols-[auto_1fr] gap-x-3 gap-y-2.5">
+          <template v-for="item in PROFILE" :key="item.label">
+            <dt class="font-mono text-[12px] whitespace-nowrap text-ink-3">{{ item.label }}</dt>
+            <dd class="m-0 text-[13px] leading-[1.6] text-ink-2">{{ item.value }}</dd>
+          </template>
+        </dl>
+      </aside>
     </section>
 
-    <!-- 模块入口 -->
+    <!-- 站点模块 -->
     <section class="mb-8">
       <h2 class="mecha-title mb-4">站点模块</h2>
-      <div class="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4">
+      <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4">
         <NuxtLink
           v-for="item in MODULES"
           :key="item.to"
-          class="group mecha-clip-s flex items-start gap-3 border border-line bg-card px-4 py-4 transition-colors hover:border-edge hover:bg-accent-soft"
+          class="group mecha-clip-s relative flex flex-col gap-1.5 border border-line bg-card px-4 py-4 transition-colors hover:border-edge hover:bg-accent-soft"
           :to="item.to"
         >
-          <Icon :name="item.icon" class="mt-0.5 size-4 shrink-0 text-accent-2" />
-          <span>
-            <span class="block text-[15px] font-semibold text-ink">{{ item.title }}</span>
-            <span class="mt-1 block text-[13px] leading-[1.6] text-ink-3">{{ item.desc }}</span>
+          <span class="font-mono text-[10.5px] tracking-[1.6px] text-ink-3">{{ item.code }}</span>
+          <span class="flex items-center gap-2 text-[15.5px] font-semibold text-ink">
+            {{ item.label }}
+            <Icon
+              name="i-lucide-arrow-right"
+              class="size-4 text-accent-2 transition-colors group-hover:text-accent"
+            />
           </span>
+          <span class="text-[13px] leading-[1.6] text-ink-3">{{ item.desc }}</span>
         </NuxtLink>
       </div>
     </section>
 
-    <!-- 最新日志 -->
+    <!-- 我的蛋仔派对 ID -->
     <section class="mb-8">
-      <div class="mb-4 flex items-baseline justify-between">
-        <h2 class="mecha-title">最新日志</h2>
-        <NuxtLink class="font-mono text-[12.5px] text-accent-2 hover:underline" to="/posts/">
-          查看全部 →
-        </NuxtLink>
+      <h2 class="mecha-title mb-4">我的蛋仔派对ID</h2>
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <figure
+          v-for="item in EGGY_IDS"
+          :key="item.file"
+          class="mecha-clip-s m-0 border border-line bg-card p-3"
+        >
+          <a
+            class="block overflow-hidden border border-line bg-accent-soft"
+            :href="`/images/${item.file}`"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              :src="`/images/${item.file}`"
+              :alt="`我的蛋仔派对${item.note}`"
+              loading="lazy"
+              class="w-full transition-transform duration-300 hover:scale-[1.02]"
+            />
+          </a>
+          <figcaption class="mt-2.5 flex items-center gap-2">
+            <span class="mecha-tag text-[11px]">{{ item.note }}</span>
+            <span class="text-[13.5px] text-ink-2">{{ item.name }}</span>
+          </figcaption>
+        </figure>
       </div>
-      <CardGrid :posts="posts" empty-text="还没有日志" />
     </section>
 
-    <!-- 工具 + 蛋仔 ID -->
-    <section class="grid gap-4 md:grid-cols-2">
-      <div class="mecha-clip-s border border-line bg-card p-5">
-        <h2 class="mb-3 text-[15px] font-semibold text-ink">常用工具</h2>
-        <ul class="flex flex-col gap-2">
-          <li v-for="tool in TOOL_LINKS" :key="tool.slug">
-            <NuxtLink
-              class="flex items-center justify-between gap-3 border-b border-dashed border-line pb-2 text-[13.5px] text-ink-2 transition-colors hover:text-accent-2"
-              :to="`/tools/${tool.slug}`"
-            >
-              <span>{{ tool.name }}</span>
-              <Icon name="i-lucide-arrow-right" class="size-3.5" />
-            </NuxtLink>
-          </li>
-        </ul>
-      </div>
-
-      <div class="mecha-clip-s border border-line bg-card p-5">
-        <h2 class="mb-3 text-[15px] font-semibold text-ink">蛋仔派对 ID</h2>
-        <div class="flex flex-wrap gap-4">
-          <img src="/images/eggypartyid.jpg" alt="蛋仔派对 ID" class="w-40 border border-line" loading="lazy" />
-          <img src="/images/eggypartyid2.jpg" alt="蛋仔派对 ID（备用）" class="w-40 border border-line" loading="lazy" />
-        </div>
+    <!-- 关于这个站点 -->
+    <section class="mb-2">
+      <h2 class="mecha-title mb-4">关于这个站点</h2>
+      <div class="mecha-clip-s border border-line bg-card p-6 text-[14.5px] leading-[1.9] text-ink-2">
+        <p>
+          这个网站的框架是用AI搭的，我只负责内容填充。不过，说句实话，如果我不给复杂的提示词，AI也生成不出来这种“风格缝合怪”的网站。<del
+            class="text-ink-3"
+            >另外，AI总是喜欢把HTML代码和CSS、JS代码写一块，即使我特意说明分离也是如此。</del
+          >最终思考权还是在人类手中。
+        </p>
       </div>
     </section>
   </div>

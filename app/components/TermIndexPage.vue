@@ -31,7 +31,7 @@ const unit = computed(() => (props.kind === 'categories' ? '个分类' : '个标
       >
         <Icon
           :name="kind === 'categories' ? 'i-lucide-folder' : 'i-lucide-hash'"
-          class="size-4 shrink-0 text-accent-2"
+          class="size-[18px] shrink-0 text-accent-2"
         />
         <span class="min-w-0 flex-1 truncate text-[14.5px] text-ink-2 group-hover:text-ink">
           {{ term.name }}

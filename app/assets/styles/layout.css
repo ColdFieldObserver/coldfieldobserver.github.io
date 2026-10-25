@@ -23,12 +23,6 @@
   );
 }
 
-/* 品牌徽标：六边形装甲片 */
-.brand-mark {
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  box-shadow: 0 0 14px rgba(45, 140, 255, 0.45);
-}
-
 .brand-text {
   text-shadow: 0 0 8px rgba(45, 140, 255, 0.25);
 }

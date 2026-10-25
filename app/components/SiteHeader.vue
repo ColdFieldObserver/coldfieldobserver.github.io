@@ -21,9 +21,14 @@ useMobileDrawerGestures();
     data-nosnippet
   >
     <NuxtLink class="flex min-w-0 items-center gap-2.5" to="/" :aria-label="SITE.brand">
-      <span class="brand-mark grid size-[30px] flex-none place-items-center text-[15px] text-on-accent" aria-hidden="true">
-        ⬢
-      </span>
+      <img
+        class="size-[30px] flex-none rounded-xs border border-edge/60 object-cover"
+        src="/images/logo.webp"
+        alt=""
+        width="30"
+        height="30"
+        aria-hidden="true"
+      />
       <span class="brand-text text-[17px] font-bold tracking-[2px] whitespace-nowrap">{{ SITE.brand }}</span>
       <span class="brand-sub hidden">{{ SITE.codename }}</span>
     </NuxtLink>
@@ -36,7 +41,7 @@ useMobileDrawerGestures();
         :aria-expanded="leftOpen"
         @click="toggleMobileDrawer('left')"
       >
-        <Icon name="i-lucide-menu" class="size-5" aria-hidden="true" />
+        <Icon name="i-lucide-menu" class="size-[22px]" aria-hidden="true" />
       </button>
 
       <button
@@ -47,7 +52,7 @@ useMobileDrawerGestures();
         aria-controls="sidebar-right"
         @click="toggleMobileDrawer('right')"
       >
-        <Icon name="i-lucide-panel-right" class="size-5" aria-hidden="true" />
+        <Icon name="i-lucide-panel-right" class="size-[22px]" aria-hidden="true" />
       </button>
     </div>
   </header>

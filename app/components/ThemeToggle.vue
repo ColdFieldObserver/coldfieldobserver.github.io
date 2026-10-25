@@ -34,8 +34,8 @@ const label = computed(() => LABELS[mode.value]);
     :aria-label="`切换主题，当前${label}`"
     @click="cycle"
   >
-    <span class="inline-flex size-5 text-accent-2" aria-hidden="true">
-      <Icon :name="ICONS[mode]" class="size-[18px]" />
+    <span class="inline-flex size-5 shrink-0 text-accent-2" aria-hidden="true">
+      <Icon :name="ICONS[mode]" class="size-5" />
     </span>
 
     <span class="flex flex-1 flex-col items-start leading-[1.25]">

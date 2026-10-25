@@ -28,7 +28,7 @@ export default defineNuxtConfig({
         },
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/images/favicon.svg' },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' },
         // 字体全部走 CDN，仓库不保留字体文件：
         //   HarmonyOS Sans SC（400/500/700，unicode-range 分片）+ Cascadia Code（代码块）
