@@ -21,7 +21,7 @@ const TITLE_CLASS =
   "mb-3 flex items-center gap-2 border-b border-line pb-2 text-[11.5px] font-bold tracking-[2px] text-accent-2 uppercase before:size-1.5 before:rotate-45 before:bg-accent before:content-['']";
 const WIDGET_CLASS = 'mecha-clip-m relative border border-line bg-panel px-[15px] pt-[15px] pb-4';
 const ITEM_CLASS =
-  'block border-b border-dashed border-line py-[7px] text-[13.8px] leading-[1.55] text-ink-2 transition-colors last:border-b-0 hover:text-accent-2 line-clamp-2';
+  'block py-[6px] text-[13.8px] leading-[1.55] text-ink-2 transition-colors hover:text-accent-2 line-clamp-2';
 </script>
 
 <template>
@@ -66,7 +66,7 @@ const ITEM_CLASS =
             '主阵地：逃少音乐档案馆（B站 & WP 独立站）',
           ]"
           :key="line"
-          class="relative line-clamp-4 border-b border-dashed border-line py-[7px] pl-3.5 text-[13.8px] leading-[1.55] text-ink-2 last:border-b-0 before:absolute before:top-3.5 before:left-0.5 before:size-[5px] before:rotate-45 before:bg-accent before:content-['']"
+          class="relative line-clamp-4 py-[6px] pl-3.5 text-[13.8px] leading-[1.55] text-ink-2 before:absolute before:top-3.5 before:left-0.5 before:size-[5px] before:rotate-45 before:bg-accent before:content-['']"
         >
           {{ line }}
         </li>
@@ -111,7 +111,7 @@ const ITEM_CLASS =
       <div
         v-for="item in NOTICE"
         :key="item.date"
-        class="flex gap-2.5 border-b border-dashed border-line py-1.5 text-[13.2px] leading-[1.6] text-ink-2 last:border-b-0"
+        class="flex gap-2.5 py-1.5 text-[13.2px] leading-[1.6] text-ink-2"
       >
         <span class="flex-none font-mono text-[11.5px] text-accent-2">{{ item.date }}</span>
         <span>{{ item.text }}</span>

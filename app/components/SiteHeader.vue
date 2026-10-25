@@ -21,9 +21,14 @@ useMobileDrawerGestures();
     data-nosnippet
   >
     <NuxtLink class="flex min-w-0 items-center gap-2.5" to="/" :aria-label="SITE.brand">
-      <span class="brand-mark grid size-[30px] flex-none place-items-center text-[15px] text-on-accent" aria-hidden="true">
-        ⬢
-      </span>
+      <img
+        class="size-[30px] flex-none rounded-xs border border-edge/60 object-cover"
+        src="/images/logo.webp"
+        alt=""
+        width="30"
+        height="30"
+        aria-hidden="true"
+      />
       <span class="brand-text text-[17px] font-bold tracking-[2px] whitespace-nowrap">{{ SITE.brand }}</span>
       <span class="brand-sub hidden">{{ SITE.codename }}</span>
     </NuxtLink>
