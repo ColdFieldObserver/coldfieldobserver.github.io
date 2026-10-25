@@ -322,3 +322,23 @@
     filter: brightness(1.12);
   }
 }
+
+/* ============================================================
+   无 JavaScript 降级
+   ------------------------------------------------------------
+   规则集中在这里，不要写进组件的 <style scoped>：Vue 的 scoped 编译会
+   把 `:global(html:not(.js)) .foo` 收窄成只作用于 <html>。
+   这些规则未分层，需要时能压过 utilities。
+   ============================================================ */
+html:not(.js) .mecha-loader {
+  display: none !important;
+}
+
+/* 依赖 JS 才能打开的搜索弹窗入口：无 JS 时退化成站内搜索页链接 */
+html:not(.js) .search-launcher {
+  display: none;
+}
+
+html:not(.js) .search-launcher-fallback {
+  display: inline-block;
+}
