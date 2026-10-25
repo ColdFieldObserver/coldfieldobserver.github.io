@@ -19,13 +19,13 @@ useHead({ title: '工具箱' });
         :to="`/tools/${tool.slug}`"
       >
         <h2 class="flex items-center gap-2 text-[15.5px] font-semibold text-ink">
-          <Icon name="i-lucide-wrench" class="size-4 text-accent-2" />
+          <Icon name="i-lucide-wrench" class="size-[18px] text-accent-2" />
           {{ tool.name }}
         </h2>
         <p class="mt-2 text-[13px] leading-[1.65] text-ink-3">{{ tool.desc }}</p>
         <span class="mt-3 inline-flex items-center gap-1 font-mono text-[12px] text-accent-2">
           打开
-          <Icon name="i-lucide-arrow-right" class="size-3.5" />
+          <Icon name="i-lucide-arrow-right" class="size-4" />
         </span>
       </NuxtLink>
     </div>

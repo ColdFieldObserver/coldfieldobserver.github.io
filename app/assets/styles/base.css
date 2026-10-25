@@ -186,6 +186,14 @@
     flex-shrink: 0;
   }
 
+  /* @nuxt/icon 的 svg 模式输出 class="iconify"：给一个 1em 兜底尺寸，
+     避免某个图标忘了写 size-* 时按 SVG 默认 300×150 撑开布局。
+     具体尺寸仍由工具类（size-4 / size-5 …）覆盖。 */
+  svg.iconify {
+    width: 1em;
+    height: 1em;
+  }
+
   /* 浏览器默认控件样式归零（Preflight 的等价子集）：
      不引 Preflight 时 <button> 会带 `border: 2px outset` 与 ButtonFace 底 */
   button,

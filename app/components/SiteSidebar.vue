@@ -102,7 +102,7 @@ onBeforeUnmount(() => {
         >
           <Icon
             :name="item.icon"
-            class="size-[18px] transition-colors"
+            class="size-5 transition-colors"
             :class="activeKey === item.key ? 'text-accent' : 'text-ink-3'"
           />
           <span>{{ item.label }}</span>
@@ -125,7 +125,7 @@ onBeforeUnmount(() => {
             target="_blank"
             rel="alternate noopener"
           >
-            <Icon name="i-lucide-chevron-right" class="size-3.5 text-ink-3" />
+            <Icon name="i-lucide-chevron-right" class="size-4 text-ink-3" />
             <span>{{ item.label }}</span>
           </a>
           <NuxtLink
@@ -133,7 +133,7 @@ onBeforeUnmount(() => {
             class="flex items-center gap-2.5 border-l-[3px] border-transparent px-2.5 py-1.5 text-[13.5px] text-ink-2 transition-colors hover:border-l-edge hover:bg-accent-soft hover:text-ink"
             :to="item.to"
           >
-            <Icon name="i-lucide-chevron-right" class="size-3.5 text-ink-3" />
+            <Icon name="i-lucide-chevron-right" class="size-4 text-ink-3" />
             <span>{{ item.label }}</span>
           </NuxtLink>
         </template>

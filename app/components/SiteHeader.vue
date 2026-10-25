@@ -41,7 +41,7 @@ useMobileDrawerGestures();
         :aria-expanded="leftOpen"
         @click="toggleMobileDrawer('left')"
       >
-        <Icon name="i-lucide-menu" class="size-5" aria-hidden="true" />
+        <Icon name="i-lucide-menu" class="size-[22px]" aria-hidden="true" />
       </button>
 
       <button
@@ -52,7 +52,7 @@ useMobileDrawerGestures();
         aria-controls="sidebar-right"
         @click="toggleMobileDrawer('right')"
       >
-        <Icon name="i-lucide-panel-right" class="size-5" aria-hidden="true" />
+        <Icon name="i-lucide-panel-right" class="size-[22px]" aria-hidden="true" />
       </button>
     </div>
   </header>

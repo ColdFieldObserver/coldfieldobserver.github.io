@@ -54,7 +54,7 @@ const coverSrc = computed(() => {
         class="mt-auto flex items-center gap-1 font-mono text-[12px] text-accent-2 transition-colors group-hover:text-accent"
       >
         读取数据
-        <Icon name="i-lucide-arrow-right" class="size-3.5" aria-hidden="true" />
+        <Icon name="i-lucide-arrow-right" class="size-4" aria-hidden="true" />
       </span>
     </div>
   </NuxtLink>

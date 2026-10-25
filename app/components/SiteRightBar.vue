@@ -96,7 +96,7 @@ const ITEM_CLASS =
           target="_blank"
           rel="noopener"
         >
-          <Icon :name="link.icon" class="size-4 shrink-0 text-ink-3" />
+          <Icon :name="link.icon" class="size-[17px] shrink-0 text-ink-3" />
           <span>{{ link.label }}</span>
         </a>
       </div>

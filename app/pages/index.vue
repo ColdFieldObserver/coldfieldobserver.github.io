@@ -87,7 +87,7 @@ useHead({ title: '首页' });
             {{ item.label }}
             <Icon
               name="i-lucide-arrow-right"
-              class="size-3.5 text-accent-2 transition-colors group-hover:text-accent"
+              class="size-4 text-accent-2 transition-colors group-hover:text-accent"
             />
           </span>
           <span class="text-[13px] leading-[1.6] text-ink-3">{{ item.desc }}</span>
