@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { SOCIAL_LINKS, TOOL_LINKS } from '#shared/site';
+import { TOOL_LINKS } from '#shared/site';
+import {
+  ANNOUNCEMENTS,
+  FRIEND_LINKS,
+  PERSONAL_PROFILE,
+} from '~/data/rightSidebarContent';
 import { latestPosts, useAllPosts } from '~/composables/usePosts';
 import { activeMobileDrawer } from '~/composables/useMobileDrawer';
 
@@ -10,11 +15,6 @@ import { activeMobileDrawer } from '~/composables/useMobileDrawer';
 const allPosts = useAllPosts();
 const posts = computed(() => latestPosts(allPosts.value, 5));
 const drawerOpen = computed(() => activeMobileDrawer.value === 'right');
-
-const NOTICE = [
-  { date: '2026-05-13', text: '更换 B 站账号。' },
-  { date: '2026-05-03', text: '个人博客迎来重大更新。' },
-];
 
 /** 小标题：左侧菱形 + 底部分隔线 */
 const TITLE_CLASS =
@@ -60,11 +60,7 @@ const ITEM_CLASS =
       <!-- 用 <ul> 承载：<li> 必须位于列表容器内，否则是非法嵌套 -->
       <ul class="m-0 list-none p-0">
         <li
-          v-for="line in [
-            '兴趣爱好：打游戏、听音乐、看视频、户外散步、偶尔写点东西',
-            '喜欢玩的游戏：逃跑吧少年、蛋仔派对、我的世界、植物大战僵尸2、保卫萝卜4、光遇',
-            '主阵地：逃少音乐档案馆（B站 & WP 独立站）',
-          ]"
+          v-for="line in PERSONAL_PROFILE"
           :key="line"
           class="relative line-clamp-4 py-[6px] pl-3.5 text-[13.8px] leading-[1.55] text-ink-2 before:absolute before:top-3.5 before:left-0.5 before:size-[5px] before:rotate-45 before:bg-accent before:content-['']"
         >
@@ -89,15 +85,15 @@ const ITEM_CLASS =
       <h2 :class="TITLE_CLASS">友情链接</h2>
       <div class="flex flex-col gap-2">
         <a
-          v-for="link in SOCIAL_LINKS"
-          :key="link.href"
+          v-for="link in FRIEND_LINKS"
+          :key="link.url"
           class="mecha-clip-dual flex items-center gap-2 border border-line bg-card px-2.5 py-[7px] text-[13.5px] text-ink-2 transition-colors hover:border-edge hover:bg-accent-soft hover:text-accent-2"
-          :href="link.href"
+          :href="link.url"
           target="_blank"
           rel="noopener"
         >
           <Icon :name="link.icon" class="size-[17px] shrink-0 text-ink-3" />
-          <span>{{ link.label }}</span>
+          <span>{{ link.name }}</span>
         </a>
       </div>
       <p class="mt-2.5 text-[13px] leading-[1.65] text-ink-3">
@@ -109,12 +105,12 @@ const ITEM_CLASS =
     <section :class="WIDGET_CLASS">
       <h2 :class="TITLE_CLASS">公告</h2>
       <div
-        v-for="item in NOTICE"
+        v-for="item in ANNOUNCEMENTS"
         :key="item.date"
         class="flex gap-2.5 py-1.5 text-[13.2px] leading-[1.6] text-ink-2"
       >
         <span class="flex-none font-mono text-[11.5px] text-accent-2">{{ item.date }}</span>
-        <span>{{ item.text }}</span>
+        <span>{{ item.content }}</span>
       </div>
     </section>
   </aside>

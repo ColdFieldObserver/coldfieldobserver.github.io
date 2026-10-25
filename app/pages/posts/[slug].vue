@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useAllPosts } from '~/composables/usePosts';
+import { enhancePost } from '~/composables/usePostEnhance';
 
 const route = useRoute();
 const all = useAllPosts();
@@ -27,6 +28,23 @@ const meta = computed(() => ({
   tags: all.value[index.value]?.tags ?? [],
 }));
 
+/** 是否有目录（正文里至少两级标题才值得渲染） */
+const hasToc = computed(() => {
+  const toc = (post.value as { body?: { toc?: { links?: unknown[] } } }).body?.toc;
+  return Boolean(toc?.links?.length);
+});
+
+/**
+ * 正文增强：目录填充、锚点精确对齐、代码块复制按钮、Mermaid 渲染。
+ * 必须在 DOM 就绪后调用；站内跳转时按路由重置内部缓存。
+ */
+function runEnhance(): void {
+  void enhancePost(route.path);
+}
+
+onMounted(runEnhance);
+watch(() => route.path, () => requestAnimationFrame(runEnhance));
+
 useHead({ title: post.value.title });
 </script>
 
@@ -49,6 +67,8 @@ useHead({ title: post.value.title });
         </NuxtLink>
       </div>
     </header>
+
+    <div v-if="hasToc" class="post-toc" data-post-toc />
 
     <div class="post-content">
       <ContentRenderer :value="post" />

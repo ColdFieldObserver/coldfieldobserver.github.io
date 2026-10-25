@@ -19,6 +19,8 @@ export default defineNuxtConfig({
     baseURL: '/',
     head: {
       htmlAttrs: { lang: 'zh-CN' },
+      // 默认标题：页面各自 useHead 覆盖，error.vue / 404 等没有设标题时兜底
+      title: '冷域观者的个人网站',
       meta: [
         { name: 'author', content: 'ColdFieldObserver' },
         {
@@ -30,6 +32,9 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' },
+        // Giscus 评论区在文章页底部，懒加载触发时才注入 iframe；
+        // 预连接可省掉首次展开评论时的 DNS + TCP + TLS 握手
+        { rel: 'preconnect', href: 'https://giscus.app' },
         // 字体全部走 CDN，仓库不保留字体文件：
         //   HarmonyOS Sans SC（400/500/700，unicode-range 分片）+ Cascadia Code（代码块）
         {
@@ -91,6 +96,35 @@ export default defineNuxtConfig({
 
   css: ['katex/dist/katex.min.css', '~/assets/styles/main.css'],
 
+  // 内容渲染：目录深度、双主题代码高亮、数学公式（KaTeX 替代旧的 mathjax3）
+  content: {
+    build: {
+      markdown: {
+        toc: { depth: 3, searchDepth: 3 },
+        highlight: {
+          theme: { default: 'github-light', dark: 'github-dark' },
+          langs: [
+            'bash',
+            'css',
+            'diff',
+            'html',
+            'js',
+            'json',
+            'md',
+            'scss',
+            'shell',
+            'ts',
+            'vue',
+            'xml',
+            'yaml',
+          ],
+        },
+        remarkPlugins: { 'remark-math': {} },
+        rehypePlugins: { 'rehype-katex': {} },
+      },
+    },
+  },
+
   // 组件按文件名注册（<ListView> / <PostCard> …），模板保持零改动
   components: [{ path: '~/components', pathPrefix: false }],
 
@@ -104,7 +138,9 @@ export default defineNuxtConfig({
       icons: [
         'lucide:arrow-right',
         'lucide:arrow-up',
+        'lucide:check',
         'lucide:chevron-right',
+        'lucide:copy',
         'lucide:folder',
         'lucide:hash',
         'lucide:house',

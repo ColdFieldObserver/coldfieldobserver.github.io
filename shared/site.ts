@@ -18,49 +18,7 @@ export const SITE = {
   mainUrl: 'https://coldfieldobserver.github.io',
 } as const;
 
-/** 右侧栏「友情链接」 */
-export const SOCIAL_LINKS = [
-  {
-    label: '逃少音乐档案馆（B站）',
-    href: 'https://space.bilibili.com/3632301571311734',
-    icon: 'i-simple-icons-bilibili',
-  },
-  {
-    label: '逃少音乐档案馆（WP）',
-    href: 'https://dmmdzzmusicarchive.wordpress.com/',
-    icon: 'i-lucide-globe',
-  },
-  {
-    label: '冷域观者的B站个人空间',
-    href: 'https://space.bilibili.com/3706982592678629',
-    icon: 'i-simple-icons-bilibili',
-  },
-  {
-    label: '冷域观者的博客（上线了）',
-    href: 'https://coldfieldobserver.mysxl.cn/',
-    icon: 'i-lucide-globe',
-  },
-  {
-    label: '冷域观者的博客（WordPress）',
-    href: 'https://alonewalkman.wordpress.com/',
-    icon: 'i-lucide-globe',
-  },
-  {
-    label: '冷域观者的GitHub',
-    href: 'https://github.com/ColdFieldObserver',
-    icon: 'i-simple-icons-github',
-  },
-  {
-    label: 'Alone Voyager的GitHub Pages',
-    href: 'https://alonevoyager.github.io/',
-    icon: 'i-lucide-globe',
-  },
-  {
-    label: '蛋小蓝的博客（建设中）',
-    href: 'https://danxiaolan.wordpress.com/',
-    icon: 'i-lucide-globe',
-  },
-] as const;
+/** 友情链接已迁到 app/data/rightSidebarContent.ts（与侧栏其他内容同源） */
 
 /** 首页 / 工具页共用的工具清单 */
 export const TOOL_LINKS = [
