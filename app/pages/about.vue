@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { SITE, SOCIAL_LINKS } from '#shared/site';
+import { SITE } from '#shared/site';
+import { FRIEND_LINKS } from '~/data/rightSidebarContent';
 
 const COPYRIGHT = [
   '本站为个人非盈利站点，内容以原创与技术记录为主。',
@@ -39,9 +40,9 @@ useHead({ title: '关于' });
             <span class="text-ink-3">/</span>
             <a class="hover:underline" href="/rss.xml">RSS 2.0</a>
           </li>
-          <li v-for="link in SOCIAL_LINKS.slice(0, 3)" :key="link.href" class="flex items-center gap-2">
+          <li v-for="link in FRIEND_LINKS.slice(0, 3)" :key="link.url" class="flex items-center gap-2">
             <Icon :name="link.icon" class="size-4 text-accent-2" />
-            <a class="hover:underline" :href="link.href" target="_blank" rel="noopener">{{ link.label }}</a>
+            <a class="hover:underline" :href="link.url" target="_blank" rel="noopener">{{ link.name }}</a>
           </li>
         </ul>
       </section>
