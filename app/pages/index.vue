@@ -6,8 +6,8 @@ import { SITE } from '#shared/site';
 // ============================================================
 
 const EGGY_IDS = [
-  { file: 'eggypartyid.jpg', name: '实况主灯塔', note: '大号' },
-  { file: 'eggypartyid2.jpg', name: '翌测', note: '小号' },
+  { file: 'https://img.remit.ee/i/Kqi2hJUbtHeH', name: '实况主灯塔', note: '大号' },
+  { file: 'https://img.remit.ee/i/v7QTWcHyx1t0', name: '翌测', note: '小号' },
 ];
 
 const MODULES = [
@@ -87,12 +87,12 @@ useHead({ title: SITE.title });
         >
           <a
             class="block overflow-hidden border border-line bg-accent-soft"
-            :href="`/images/${item.file}`"
+            :href="item.file"
             target="_blank"
             rel="noopener"
           >
             <img
-              :src="`/images/${item.file}`"
+              :src="item.file"
               :alt="`我的蛋仔派对${item.note}`"
               loading="lazy"
               class="w-full transition-transform duration-300 hover:scale-[1.02]"
