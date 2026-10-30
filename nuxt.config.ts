@@ -80,14 +80,6 @@ export default defineNuxtConfig({
           innerHTML: 'document.documentElement.classList.add("js");',
           tagPriority: 'critical',
         },
-        // 首帧同步脚本：只有「本次会话第一次进入」才允许显示开机动画。
-        // 关键在于它由 JS 写入 —— 禁用 JS 时 html.booting 不会存在，
-        // 全屏 loader 因此永不出现（旧实现默认渲染，无 JS 时整页空白）。
-        {
-          innerHTML:
-            'try{if(!sessionStorage.getItem("cfo-booted")){document.documentElement.classList.add("booting");sessionStorage.setItem("cfo-booted","1")}}catch(e){}',
-          tagPriority: 'critical',
-        },
       ],
     },
     // 保住 .page-enter-from / .page-leave-to 等类名（见 animation.css）

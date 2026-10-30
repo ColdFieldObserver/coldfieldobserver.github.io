@@ -3,7 +3,7 @@ import { setupScrollReveal } from '~/composables/useScrollReveal';
 import { initTheme } from '~/composables/useTheme';
 
 // ============================================================
-// 全站壳层：开机动画 + 顶栏 + 左右固定栏 + 唯一滚动容器
+// 全站壳层：顶栏 + 左右固定栏 + 唯一滚动容器
 //   注意：这里不能用顶层 await —— layout 不在 <Suspense> 内，
 //   异步 setup 会让客户端 hydration 一直挂起（表现为页面卡死）。
 // ============================================================
@@ -17,7 +17,7 @@ const {
   markPageLoaded,
 } = usePageProgress();
 
-// 站内跳转的真实加载进度（首屏由 MechaLoader 负责，二者不重叠）
+// 站内跳转的真实加载进度（首屏不再有全屏 loader，只保留这条细进度条）
 const offLoadingStart = nuxtApp.hook('page:loading:start', () => startProgress(false));
 const offLoadingEnd = nuxtApp.hook('page:loading:end', () => markPageLoaded());
 
@@ -52,7 +52,6 @@ onBeforeUnmount(() => {
 <template>
   <PageProgress :progress="progress" :active="progressActive" :done="progressDone" />
   <ReadingProgress />
-  <MechaLoader />
   <SiteHeader />
   <SiteSidebar />
 
