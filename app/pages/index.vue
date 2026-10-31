@@ -1,122 +1,273 @@
 <script setup lang="ts">
-import { SITE } from '#shared/site';
-// ============================================================
-// 首页：内容与原站保持一致
-//   驾驶舱概览 → 站点模块 → 蛋仔派对 ID → 关于这个站点
-// ============================================================
+import { computed } from 'vue';
+import { SITE, TOOL_LINKS } from '#shared/site';
+import { AVATAR, GAME_IDS, HERO_INTRO, PROJECTS, SITE_NOTE } from '~/data/home';
+import { PERSONAL_PROFILE, SOCIAL_LINKS, TIMELINE } from '~/data/profile';
+import { latestPosts, useAllPosts } from '~/composables/usePosts';
 
-const EGGY_IDS = [
-  { file: 'https://img.remit.ee/i/Kqi2hJUbtHeH', name: '实况主灯塔', note: '大号' },
-  { file: 'https://img.remit.ee/i/v7QTWcHyx1t0', name: '翌测', note: '小号' },
-];
+// ============================================================
+// 首页：Hero → 关于我 / 身份主线 → 最新日志 → 我的项目
+//       → 我的游戏 ID → 工具矩阵 → 关于这个站点
+// 「最新日志」「个人档案」「工具矩阵」原在右侧栏，右栏移除后搬到这里。
+// ============================================================
+const allPosts = useAllPosts();
+const latest = computed(() => latestPosts(allPosts.value, 3));
 
-const MODULES = [
-  { label: '日志终端', desc: '按时间归档的全部记录', to: '/archives/', code: 'ARCHIVE' },
-  { label: '工具矩阵', desc: 'Base64 / Unicode / 时间戳 / URL', to: '/tools/', code: 'TOOLS' },
-  { label: 'RSS 订阅', desc: '用阅读器跟踪更新', to: '/atom.xml', code: 'FEED' },
-];
+/** 工具矩阵：桌面一行四张卡，取前四个代表作 */
+const TOOL_FEATURED = TOOL_LINKS.slice(0, 4);
+
+const avatarSrc = withBase(AVATAR);
 
 useHead({ title: SITE.title });
 </script>
 
 <template>
   <div class="mx-auto max-w-page">
-    <!-- 驾驶舱概览 -->
-    <section class="mb-8 grid gap-5">
-      <div class="mecha-clip-l relative border border-line bg-panel px-7 py-8">
-        <p class="font-mono text-[11.5px] tracking-[2px] text-accent-2">
-          // COLDFIELD OBSERVER · PERSONAL TERMINAL
-        </p>
-        <h1
-          class="mt-3 text-[clamp(26px,4.5vw,38px)] leading-[1.25] font-extrabold tracking-[1px] text-ink"
+    <!-- 1. Hero：圆形头像 + 标题 + 简介 + 社交按钮 -->
+    <section class="hero-grid -mx-4 px-4 py-10 text-center sm:-mx-6 sm:px-6 lg:py-14">
+      <img
+        class="mx-auto size-28 rounded-full object-cover ring-4 ring-primary/15 lg:size-32"
+        :src="avatarSrc"
+        alt="冷域观者的头像"
+        width="512"
+        height="512"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <h1
+        class="mx-auto mt-6 max-w-[22em] text-[clamp(26px,4.6vw,40px)] leading-[1.2] font-extrabold tracking-tight text-highlighted"
+      >
+        欢迎来到冷域观者的博客网站
+      </h1>
+      <p class="mx-auto mt-4 max-w-[620px] text-[15.5px] leading-[1.9] text-toned">
+        {{ HERO_INTRO }}
+      </p>
+
+      <!-- 个人档案：Hero 下方的胶囊列表 -->
+      <ul class="mt-6 flex flex-col items-center gap-1.5 text-sm text-toned sm:flex-row sm:flex-wrap sm:justify-center">
+        <li
+          v-for="line in PERSONAL_PROFILE"
+          :key="line"
+          class="rounded-full border border-default px-3 py-1"
         >
-          欢迎来到冷域观者的个人网站！
-        </h1>
-        <div class="mt-4 flex flex-col gap-3 text-[14.5px] leading-[1.85] text-ink-2">
-          <p>
-            我是冷域观者，一个逃跑吧少年和蛋仔派对玩家，偶尔也玩我的世界、PVZ2
-            和保卫萝卜4，同时还是逃少音乐档案馆的主理人。
-          </p>
-          <p>
-            曾用名 AsyncObserver、蛋仔派对远航蛋、主唱耀星_Eggy、UNI-航行的灯塔、TP-RLX-LIGHT
-            等，喜欢数码和技术。我也接触过编程，C、C++、C#、Python、HTML、CSS、JavaScript
-            都懂一点，有时候也会试着用别的语言重构几个易语言项目玩玩（易语言的缺点你们懂的）。
-          </p>
-          <p>这里是我的个人网站。当然我不在这里发博文，就提供一些工具和资源导航。</p>
-        </div>
+          {{ line }}
+        </li>
+      </ul>
 
-        <div class="mt-6 flex flex-wrap gap-3">
-          <NuxtLink class="mecha-btn primary" to="/posts/">进入日志终端</NuxtLink>
-          <NuxtLink class="mecha-btn" to="/tools/">打开工具矩阵</NuxtLink>
-        </div>
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+        <UButton
+          v-for="link in SOCIAL_LINKS"
+          :key="link.url"
+          :to="link.url"
+          target="_blank"
+          rel="noopener"
+          :icon="link.icon"
+          :label="link.name"
+          size="lg"
+          :variant="link.name === 'GitHub' ? 'outline' : 'solid'"
+          :color="link.name === 'GitHub' ? 'neutral' : 'primary'"
+        />
       </div>
-
     </section>
 
-    <!-- 站点模块 -->
-    <section class="mb-8">
-      <h2 class="mecha-title mb-4">站点模块</h2>
-      <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4">
-        <NuxtLink
-          v-for="item in MODULES"
-          :key="item.to"
-          class="group mecha-clip-s relative flex flex-col gap-1.5 border border-line bg-card px-4 py-4 transition-colors hover:border-edge hover:bg-accent-soft"
-          :to="item.to"
-        >
-          <span class="font-mono text-[10.5px] tracking-[1.6px] text-ink-3">{{ item.code }}</span>
-          <span class="flex items-center gap-2 text-[15.5px] font-semibold text-ink">
-            {{ item.label }}
-            <Icon
-              name="i-lucide-arrow-right"
-              class="size-4 text-accent-2 transition-colors group-hover:text-accent"
+    <!-- 2. 关于我 / 身份主线经历 -->
+    <section class="mt-4 grid gap-6 lg:grid-cols-2">
+      <UCard>
+        <template #header>
+          <h2 class="flex items-center gap-2 text-lg font-bold text-highlighted">
+            <UIcon name="i-lucide-info" class="size-5 text-primary" aria-hidden="true" />
+            关于我
+          </h2>
+        </template>
+        <ul class="flex flex-col gap-3">
+          <li v-for="line in PERSONAL_PROFILE" :key="line" class="flex gap-2 text-sm leading-[1.8] text-toned">
+            <UIcon
+              name="i-lucide-chevron-right"
+              class="mt-1 size-4 shrink-0 text-primary"
+              aria-hidden="true"
             />
-          </span>
-          <span class="text-[13px] leading-[1.6] text-ink-3">{{ item.desc }}</span>
-        </NuxtLink>
-      </div>
+            <span>{{ line }}</span>
+          </li>
+        </ul>
+      </UCard>
+
+      <UCard>
+        <template #header>
+          <h2 class="flex items-center gap-2 text-lg font-bold text-highlighted">
+            <UIcon name="i-lucide-tags" class="size-5 text-primary" aria-hidden="true" />
+            身份主线经历
+          </h2>
+        </template>
+        <UTimeline :items="TIMELINE" size="sm" />
+      </UCard>
     </section>
 
-    <!-- 我的蛋仔派对 ID -->
-    <section class="mb-8">
-      <h2 class="mecha-title mb-4">我的蛋仔派对ID</h2>
-      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <figure
-          v-for="item in EGGY_IDS"
-          :key="item.file"
-          class="mecha-clip-s m-0 border border-line bg-card p-3"
+    <!-- 3. 最新日志 -->
+    <UPageSection
+      class="mt-12"
+      title="最新日志"
+      description="不定时更新的记录、折腾与归档。"
+      :ui="{ container: 'py-0! gap-5' }"
+    >
+      <CardGrid :posts="latest" empty-text="暂无日志" />
+      <template #footer>
+        <div class="flex justify-center">
+          <UButton to="/posts/" size="lg" trailing-icon="i-lucide-arrow-right" label="查看全部日志" />
+        </div>
+      </template>
+    </UPageSection>
+
+    <!-- 4. 我的项目 -->
+    <UPageSection
+      class="mt-12"
+      title="我的项目"
+      description="长期在维护的两个站点。"
+      :ui="{ container: 'py-0! gap-5' }"
+    >
+      <UPageGrid style="--grid-min: 280px">
+        <UPageCard
+          v-for="project in PROJECTS"
+          :key="project.name"
+          :icon="project.icon"
+          :title="project.name"
+          :description="project.description"
+          variant="subtle"
+          spotlight
         >
+          <template #footer>
+            <div class="flex flex-wrap items-center gap-3">
+              <UButton
+                :to="project.to"
+                target="_blank"
+                rel="noopener"
+                variant="link"
+                trailing-icon="i-lucide-arrow-up-right"
+                :label="`打开 ${project.name}`"
+                :padded="false"
+              />
+              <UButton
+                v-if="project.extra"
+                :to="project.extra.to"
+                target="_blank"
+                rel="noopener"
+                variant="link"
+                color="neutral"
+                :label="project.extra.label"
+                :padded="false"
+              />
+            </div>
+          </template>
+        </UPageCard>
+      </UPageGrid>
+    </UPageSection>
+
+    <!-- 5. 我的游戏 ID：跑马灯 -->
+    <UPageSection
+      class="mt-12"
+      title="我的游戏 ID"
+      description="蛋仔派对的两个号。"
+      :ui="{ container: 'py-0! gap-5' }"
+    >
+      <UMarquee :repeat="2" pause-on-hover :overlay="false" class="id-marquee">
+        <UCard v-for="item in GAME_IDS" :key="item.name" class="w-[260px] shrink-0">
           <a
-            class="block overflow-hidden border border-line bg-accent-soft"
-            :href="item.file"
+            class="block overflow-hidden rounded-lg border border-default bg-muted"
+            :href="item.image"
             target="_blank"
             rel="noopener"
           >
             <img
-              :src="item.file"
+              :src="item.image"
               :alt="`我的蛋仔派对${item.note}`"
               loading="lazy"
-              class="w-full transition-transform duration-300 hover:scale-[1.02]"
+              decoding="async"
+              class="w-full"
             />
           </a>
-          <figcaption class="mt-2.5 flex items-center gap-2">
-            <span class="mecha-tag text-[11px]">{{ item.note }}</span>
-            <span class="text-[13.5px] text-ink-2">{{ item.name }}</span>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
+          <div class="mt-3 flex items-center gap-2">
+            <UBadge color="primary" variant="soft" size="sm" :label="item.note" />
+            <span class="text-sm text-toned">{{ item.name }}</span>
+          </div>
+        </UCard>
+      </UMarquee>
+    </UPageSection>
 
-    <!-- 关于这个站点 -->
-    <section class="mb-2">
-      <h2 class="mecha-title mb-4">关于这个站点</h2>
-      <div class="mecha-clip-s border border-line bg-card p-6 text-[14.5px] leading-[1.9] text-ink-2">
-        <p>
-          这个网站的框架是用AI搭的，我只负责内容填充。不过，说句实话，如果我不给复杂的提示词，AI也生成不出来这种“风格缝合怪”的网站。<del
-            class="text-ink-3"
-            >另外，AI总是喜欢把HTML代码和CSS、JS代码写一块，即使我特意说明分离也是如此。</del
-          >最终思考权还是在人类手中。
-        </p>
-      </div>
-    </section>
+    <!-- 6. 工具矩阵：只展示三个代表 -->
+    <UPageSection
+      class="mt-12"
+      title="工具矩阵"
+      description="纯前端运行，数据不上传服务器。"
+      :ui="{ container: 'py-0! gap-5' }"
+    >
+      <UPageGrid style="--grid-min: 250px">
+        <UPageCard
+          v-for="tool in TOOL_FEATURED"
+          :key="tool.slug"
+          :to="`/tools/${tool.slug}`"
+          icon="i-lucide-wrench"
+          :title="tool.name"
+          :description="tool.desc"
+          variant="outline"
+        />
+      </UPageGrid>
+      <template #footer>
+        <div class="flex justify-center">
+          <UButton to="/tools/" variant="soft" color="neutral" label="更多工具" trailing-icon="i-lucide-arrow-right" />
+        </div>
+      </template>
+    </UPageSection>
+
+    <!-- 7. 关于这个站点 -->
+    <UPageSection
+      class="mt-12 mb-4"
+      title="关于这个站点"
+      description="一点必要的交代。"
+      :ui="{ container: 'py-0! gap-5' }"
+    >
+      <UCard>
+        <div class="flex flex-col gap-3 text-[15px] leading-[1.9] text-toned">
+          <p v-for="(seg, index) in SITE_NOTE" :key="index">
+            <del v-if="seg.struck" class="text-dimmed">{{ seg.text }}</del>
+            <template v-else>{{ seg.text }}</template>
+          </p>
+          <p class="text-sm text-dimmed">
+            站点基于 Nuxt 4 + Nuxt UI 构建，纯静态托管于 GitHub Pages；不引入第三方统计脚本，
+            仅使用 Giscus 承载评论。
+          </p>
+        </div>
+        <template #footer>
+          <div class="flex flex-wrap items-center gap-2">
+            <UButton to="/atom.xml" variant="ghost" icon="i-lucide-rss" label="RSS 订阅" />
+            <UButton
+              to="https://github.com/ColdFieldObserver"
+              target="_blank"
+              rel="noopener"
+              variant="ghost"
+              color="neutral"
+              icon="i-simple-icons-github"
+              label="站点源码"
+            />
+          </div>
+        </template>
+      </UCard>
+    </UPageSection>
   </div>
 </template>
+
+<style scoped>
+/* Hero 区域的网格底纹：机甲时代留下的唯一一处纹理，只在这里用 */
+.hero-grid {
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 36px 36px;
+  background-position: center;
+  /* 四边淡出，避免网格在区块边界被硬切 */
+  mask-image: radial-gradient(120% 100% at 50% 0%, #000 45%, transparent 100%);
+}
+
+/* UMarquee 默认 gap 是 64px、一圈 20s；这里与卡片间距对齐并放慢 */
+.id-marquee {
+  --gap: 16px;
+  --duration: 40s;
+}
+</style>
