@@ -16,6 +16,13 @@ const latest = computed(() => latestPosts(allPosts.value, 3));
 /** 工具矩阵：桌面一行四张卡，取前四个代表作 */
 const TOOL_FEATURED = TOOL_LINKS.slice(0, 4);
 
+/**
+ * 「我的游戏 ID」的跑马灯阈值：与 PidanUI 官网一致 —— 超过 5 张卡才滚动。
+ * 只有两三个号时静止横排即可，滚动反而让人看不清名字。
+ */
+const ID_MARQUEE_MIN = 5;
+const idMarqueeActive = computed(() => GAME_IDS.length > ID_MARQUEE_MIN);
+
 const avatarSrc = withBase(AVATAR);
 
 useHead({ title: SITE.title });
@@ -161,35 +168,29 @@ useHead({ title: SITE.title });
       </UPageGrid>
     </UPageSection>
 
-    <!-- 5. 我的游戏 ID：跑马灯 -->
+    <!-- 5. 我的游戏 ID：够多才跑马灯，否则静态横排 -->
     <UPageSection
       class="mt-12"
       title="我的游戏 ID"
       description="蛋仔派对的两个号。"
       :ui="{ container: 'py-0! gap-5' }"
     >
-      <UMarquee :repeat="2" pause-on-hover :overlay="false" class="id-marquee">
-        <UCard v-for="item in GAME_IDS" :key="item.name" class="w-[260px] shrink-0">
-          <a
-            class="block overflow-hidden rounded-lg border border-default bg-muted"
-            :href="item.image"
-            target="_blank"
-            rel="noopener"
-          >
-            <img
-              :src="item.image"
-              :alt="`我的蛋仔派对${item.note}`"
-              loading="lazy"
-              decoding="async"
-              class="w-full"
-            />
-          </a>
-          <div class="mt-3 flex items-center gap-2">
-            <UBadge color="primary" variant="soft" size="sm" :label="item.note" />
-            <span class="text-sm text-toned">{{ item.name }}</span>
-          </div>
-        </UCard>
+      <!-- 与 PidanUI 官网同一套规则：超过 5 张卡才滚动。
+           卡片少的时候跑马灯只会让人看不清名字，还会把留白变成空白跑道。 -->
+      <UMarquee v-if="idMarqueeActive" :repeat="2" pause-on-hover :overlay="false" class="id-marquee">
+        <GameIdCard v-for="item in GAME_IDS" :key="item.name" :item="item" />
       </UMarquee>
+
+      <!-- 不滚时仍是横向列表：可聚焦，键盘用户才能横向看全 -->
+      <div
+        v-else
+        class="id-scroller"
+        role="region"
+        tabindex="0"
+        aria-label="我的游戏 ID，可横向滚动"
+      >
+        <GameIdCard v-for="item in GAME_IDS" :key="item.name" :item="item" />
+      </div>
     </UPageSection>
 
     <!-- 6. 工具矩阵：只展示三个代表 -->
@@ -292,5 +293,25 @@ useHead({ title: SITE.title });
 .id-marquee {
   --gap: 16px;
   --duration: 40s;
+}
+
+/* 卡片不足 6 张时的静止形态：可手动横向滑，滑动停在卡片边界 */
+.id-scroller {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  padding: 2px 2px 12px;
+}
+
+.id-scroller > * {
+  scroll-snap-align: start;
+}
+
+.id-scroller:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 12px;
 }
 </style>
