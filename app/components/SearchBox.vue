@@ -41,7 +41,9 @@ onMounted(() => {
     <!-- 降级提示：普通元素而非 <noscript>，避免 hydration 不一致 -->
     <p class="news-search-noscript hidden text-sm text-dimmed">
       本站搜索需要启用 JavaScript。你可以使用
-      <NuxtLink class="text-primary underline" to="/atom.xml">RSS 订阅</NuxtLink>
+      <!-- 订阅源由 server/routes 生成，不是页面：用裸 <a>，走 NuxtLink 会让
+           vue-router 找不到路由而报 R0004 -->
+      <a class="text-primary underline" :href="withBase('/atom.xml')">RSS 订阅</a>
       获取最新日志。
     </p>
 

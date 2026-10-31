@@ -171,6 +171,7 @@ export default defineNuxtConfig({
         'lucide:rss',
         'lucide:search',
         'lucide:sun',
+        'lucide:sun-moon',
         'lucide:tags',
         'lucide:wrench',
         'lucide:x',

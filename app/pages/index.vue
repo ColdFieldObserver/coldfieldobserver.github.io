@@ -237,7 +237,15 @@ useHead({ title: SITE.title });
         </div>
         <template #footer>
           <div class="flex flex-wrap items-center gap-2">
-            <UButton to="/atom.xml" variant="ghost" icon="i-lucide-rss" label="RSS 订阅" />
+            <!-- 订阅源由 server/routes 生成，不是页面：这里必须用裸 <a>，
+                 走 NuxtLink 会让 vue-router 找不到路由而报 R0004 -->
+            <UButton
+              :to="withBase('/atom.xml')"
+              external
+              variant="ghost"
+              icon="i-lucide-rss"
+              label="RSS 订阅"
+            />
             <UButton
               to="https://github.com/ColdFieldObserver"
               target="_blank"
@@ -255,14 +263,29 @@ useHead({ title: SITE.title });
 </template>
 
 <style scoped>
-/* Hero 区域的网格底纹：机甲时代留下的唯一一处纹理，只在这里用 */
+/* Hero 区域的网格底纹：机甲时代留下的唯一一处纹理，只在这里用。
+   网格画在 ::before 上而不是 section 自身的 background 上：
+   mask-image 会作用于元素**及其全部后代**，直接给 section 加 mask 会让
+   底部的社交按钮跟着网格一起淡出（表现为按钮被一层渐变「盖住」）。
+   拆成伪元素后，淡出只影响背景，内容永远是不透明的。 */
 .hero-grid {
-  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-grid::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 36px 36px;
   background-position: center;
   /* 四边淡出，避免网格在区块边界被硬切 */
   mask-image: radial-gradient(120% 100% at 50% 0%, #000 45%, transparent 100%);
+  content: '';
+  pointer-events: none;
 }
 
 /* UMarquee 默认 gap 是 64px、一圈 20s；这里与卡片间距对齐并放慢 */

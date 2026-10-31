@@ -49,9 +49,11 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown));
       container: 'max-w-page mx-auto',
     }"
   >
+    <!-- #title 插槽本身是 flex items-end（图标贴底对齐），所以里面包一层
+         items-center 的容器让图标与文字垂直居中。
+         注释写在插槽外面：写进插槽会变成链接内容的一部分，
+         会让无障碍名称里混进这段中文。 -->
     <template #title>
-      <!-- UHeader 的 #title 插槽本身是 flex items-end（图标贴底对齐），
-           包一层让内部按垂直居中排布 -->
       <span class="flex items-center gap-2">
         <img
           class="size-8 shrink-0 rounded-lg object-contain"

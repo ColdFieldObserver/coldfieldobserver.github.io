@@ -362,6 +362,25 @@
     transition-duration: 220ms;
     transition-timing-function: var(--ease-inout);
   }
+
+  /* 可点元素一律用手型指针。Preflight 把 button 的 cursor 重置成 inherit，
+     不补这条时顶栏的搜索按钮、主题开关都会显示成普通箭头，
+     只有文字链接因为 UA 默认才显得「能点」。
+     禁用态保持箭头，免得让人以为还能点。 */
+  a:any-link,
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  [role='switch']:not(:disabled),
+  select:not(:disabled),
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled='true'] {
+    cursor: default;
+  }
 }
 
 /* ============================================================

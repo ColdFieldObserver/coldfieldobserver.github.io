@@ -10,11 +10,9 @@ import { FRIEND_LINKS, SOCIAL_LINKS } from '~/data/profile';
 // ============================================================
 const year = new Date().getFullYear();
 
-/** 订阅源：站内路径要补 base，并带 Atom / RSS 的 MIME */
-const FEEDS = [
-  { label: 'Atom 订阅', href: withBase('/atom.xml'), type: 'application/atom+xml' },
-  { label: 'RSS 2.0', href: withBase('/rss.xml'), type: 'application/rss+xml' },
-];
+/** 订阅源：站内路径要补 base，并带 Atom 的 MIME。
+    只保留 Atom 一份 —— rss.xml 与 atom.xml 内容等价，两个入口只会让读者犹豫。 */
+const FEEDS = [{ label: 'Atom 订阅', href: withBase('/atom.xml'), type: 'application/atom+xml' }];
 </script>
 
 <template>
