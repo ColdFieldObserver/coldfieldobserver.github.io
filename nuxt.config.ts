@@ -1,5 +1,6 @@
 import tailwindcss from '@tailwindcss/vite';
 import { buildRoutes } from './build/post-index';
+import { rehypeExternalLinksBlank } from './build/rehype-external-links';
 
 // ============================================================
 // 冷域观者的个人网站 · Nuxt 站点配置
@@ -135,7 +136,11 @@ export default defineNuxtConfig({
           ],
         },
         remarkPlugins: { 'remark-math': {} },
-        rehypePlugins: { 'rehype-katex': {} },
+        rehypePlugins: {
+          'rehype-katex': {},
+          // 站外链接补 target="_blank" rel="noopener noreferrer"（见 build/rehype-external-links.ts）
+          'rehype-external-links-blank': { instance: rehypeExternalLinksBlank },
+        },
       },
     },
   },
